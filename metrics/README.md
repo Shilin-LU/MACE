@@ -30,16 +30,15 @@ pip install imageio==2.4.1 pandas
 pip install --upgrade scikit-image
 ```
 
-4. Download and replace the model files:
+4. Download the `resources.tar.gz` file from [this OneDrive folder](https://entuedu-my.sharepoint.com/:u:/g/personal/shilin002_e_ntu_edu_sg/EayVzaUyyCZKnbMPZDtVUYABfmiVflXiYWPNrNy2_o2MFQ?e=BpFa7m) and replace the `resources` folder inside `celeb-detection-oss/examples` with the extracted one.
 
  <!-- ```
  wget https://s3.amazonaws.com/giphy-public/models/celeb-detection/resources.tar.gz
  ``` -->
- - Download the `resources.tar.gz` file from [this OneDrive folder](https://entuedu-my.sharepoint.com/:u:/g/personal/shilin002_e_ntu_edu_sg/EayVzaUyyCZKnbMPZDtVUYABfmiVflXiYWPNrNy2_o2MFQ?e=BpFa7m) and replace the `resources` folder inside `celeb-detection-oss/examples` with the extracted one.
 
 5. Modify the face detection network configuration:
  - Open `celeb-detection-oss/model_training/preprocessors/face_detection/network.py`
- - On line 88, modify to include `allow_pickle=True`, i.e.,:
+ - On line 88, modify to include `allow_pickle=True`, i.e.,
  
    ```
    data_dict = np.load(data_path, encoding='latin1', allow_pickle=True).item()

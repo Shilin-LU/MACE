@@ -56,7 +56,7 @@ The rapid expansion of large-scale text-to-image diffusion models has raised gro
   - [Training MACE to Erase Concepts](#training-mace-to-erase-concepts)
   - [Sampling from the Modified Model](#sampling-from-the-modified-model)
   - [Acknowledgments](#acknowledgments)
-  <!-- - [Citation](#citation) -->
+  - [Citation](#citation)
 
 
 <br>
@@ -126,10 +126,10 @@ We provide several finetuned Stable Diffusion v1.4 with MACE.
 
 | Concept Type to Erase | Finetuned Model |
 |---|---|
-| Celebrity Erasure | link | 
-| Artistic Style Erasure | link | 
-| Object Erasure | link | 
-| Explicit Content Erasure | link | 
+| Celebrity Erasure | OneDrive link | 
+| Artistic Style Erasure | OneDrive link | 
+| Object Erasure | OneDrive link | 
+| Explicit Content Erasure | OneDrive link | 
 
 
 ## Data Preparation
@@ -199,7 +199,7 @@ python metrics/evaluate_fid.py --dir1 'path/to/generated/image/folder' --dir2 'p
 python metrics/evaluate_clip_score.py --image_dir 'path/to/generated/image/folder' --prompts_path './prompts_csv/coco_30k.csv'
 ```
 
-- Evaluate GCD accuracy. When utilizing this script for detection, please ensure that the content within the input directory consists solely of images, without the need to navigate into any subdirectories. This precaution helps prevent errors during the process. (please refer to the [GCD installation guideline](https://github.com/Shilin-LU/MACE/tree/main/metrics)):
+- Evaluate GCD accuracy. When utilizing this script for detection, please ensure that the content within the input directory consists solely of images, without the need to navigate into subdirectories. This precaution helps prevent errors during the process. (please refer to the [GCD installation guideline](https://github.com/Shilin-LU/MACE/tree/main/metrics)):
 ```
 conda activate GCD
 python metrics/evaluate_by_GCD.py --image_folder 'path/to/generated/image/folder'
@@ -219,9 +219,9 @@ python metrics/evaluate_clip_accuracy.py --base_folder 'path/to/generated/image/
 We thank the following contributors that our code is based on: [Diffusers](https://github.com/huggingface/diffusers), [Concept-Ablation](https://github.com/nupurkmr9/concept-ablation), [Forget-Me-Not](https://github.com/SHI-Labs/Forget-Me-Not), [UCE](https://github.com/rohitgandikota/unified-concept-editing).
 
 
-<!-- ## Citation
-If you find the repo useful, please consider citing:
-```
+## Citation
+If you find the repo useful, please consider citing.
+<!-- ```
 @inproceedings{lu2023tf,
   title={TF-ICON: Diffusion-Based Training-Free Cross-Domain Image Composition},
   author={Lu, Shilin and Liu, Yanzhu and Kong, Adams Wai-Kin},

@@ -122,15 +122,15 @@ pip install accelerate openai omegaconf
 
 ## Finetuned Models Using MACE
 
-We provide our finetuned Stable Diffusion v1.4 with MACE.
+We provide several finetuned Stable Diffusion v1.4 with MACE.
 
-| Concept Type to Erase |Concept Number| Pretrained Model |
+| Concept Type to Erase | Concept Number | Finetuned Model |
 |---|---|---|
-| Celebrity |1| link | 
-| rowspan="2" |5| link | 
-| rowspan="3" |10| link | 
-| rowspan="4" |100| link | 
-| Explicit Content |-| link | 
+| Celebrity | 1 | link | 
+| Celebrity | 5 | link | 
+| Celebrity | 10 | link | 
+| Celebrity | 100 | link | 
+| Explicit Content | - | link | 
 | Artistic Style | 100 | link | 
 
 ## Data Preparation

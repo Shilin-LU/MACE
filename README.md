@@ -124,8 +124,8 @@ pip install accelerate openai omegaconf
 
 We provide several finetuned Stable Diffusion v1.4 with MACE.
 
-| Concept Type to Erase | Concept Number | Finetuned Model |
-|---|---|---|
+| Concept Type to Erase | Finetuned Model |
+|---|---|
 | Celebrity Erasure | link | 
 | Artistic Style Erasure | link | 
 | Object Erasure | link | 
@@ -154,10 +154,10 @@ The modified model can be simply tested by running the following command to gene
 
 ```
 python inference.py \
-        --num_images 3 \
-        --prompt your prompt \
-        --model_path /path/to/model \
-        --save_path /path/to/save/folder
+       --num_images 3 \
+       --prompt your prompt \
+       --model_path /path/to/model \
+       --save_path /path/to/save/folder
 ```
 
 To produce lots of images based on a list of prompts with with predetermined seeds (e.g., from a CSV file), execute the command below:
@@ -199,7 +199,7 @@ python metrics/evaluate_fid.py --dir1 'path/to/generated/image/folder' --dir2 'p
 python metrics/evaluate_clip_score.py --image_dir 'path/to/generated/image/folder' --prompts_path './prompts_csv/coco_30k.csv'
 ```
 
-- Evaluate GCD accuracy (please refer to the [GCD installation guideline](https://github.com/Shilin-LU/MACE/tree/main/metrics)):
+- Evaluate GCD accuracy. When utilizing this script for detection, please ensure that the content within the input directory consists solely of images, without the need to navigate into any subdirectories. This precaution helps prevent errors during the process. (please refer to the [GCD installation guideline](https://github.com/Shilin-LU/MACE/tree/main/metrics)):
 ```
 conda activate GCD
 python metrics/evaluate_by_GCD.py --image_folder 'path/to/generated/image/folder'

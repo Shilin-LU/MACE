@@ -116,7 +116,7 @@ wget https://huggingface.co/lkeab/hq-sam/resolve/main/sam_hq_vit_h.pth?download=
 ### Install Other Dependencies
 
 ```
-pip install transformers==4.38.1
+pip install diffusers==0.22.0 transformers==4.38.1
 pip install accelerate openai omegaconf
 ```
 
@@ -126,12 +126,11 @@ We provide several finetuned Stable Diffusion v1.4 with MACE.
 
 | Concept Type to Erase | Concept Number | Finetuned Model |
 |---|---|---|
-| Celebrity | 1 | link | 
-| Celebrity | 5 | link | 
-| Celebrity | 10 | link | 
-| Celebrity | 100 | link | 
-| Explicit Content | - | link | 
-| Artistic Style | 100 | link | 
+| Celebrity Erasure | link | 
+| Artistic Style Erasure | link | 
+| Object Erasure | link | 
+| Explicit Content Erasure | link | 
+
 
 ## Data Preparation
 
@@ -151,36 +150,67 @@ python training.py configs/example.yaml
 
 ## Sampling from the Finetuned Model
 
-The modified model can be tested by running:
+The modified model can be simply tested by running the following command to generate several images:
 
 ```
-python inference.py configs/example.yaml
+python inference.py \
+        --num_images 3 \
+        --prompt your prompt \
+        --model_path /path/to/model \
+        --save_path /path/to/save/folder
+```
+
+To produce lots of images based on a list of prompts with with predetermined seeds (e.g., from a CSV file), execute the command below:
+
+- sample images using models finetuned to avoid producing portraits of specific celebrities:
+
+```
+CUDA_VISIBLE_DEVICES=0,1,2,3 accelerate launch \
+          --multi_gpu --num_processes=4 --main_process_port 31372 \
+          src/sample_images_from_csv.py \
+          --prompts_path ./prompts_csv/celebrity_100_concepts.csv \
+          --save_path /path/to/save/folder \
+          --model_name /path/to/model \
+          --step 4
+```
+
+- sample images using models finetuned to forget specific objects:
+
+```
+CUDA_VISIBLE_DEVICES=0,1,2,3 accelerate launch \
+          --multi_gpu --num_processes=4 --main_process_port 13379 \
+          src/sample_images_objects.py \
+          --erased_object airplane \
+          --save_path /path/to/save/folder \
+          --model_name /path/to/model \
+          --step 4
 ```
 
 ## Metrics Evaluation
 During our evaluation, we employ various metrics including [FID](https://github.com/GaParmar/clean-fid), [CLIP score](https://github.com/openai/CLIP), [CLIP classification accuracy](https://github.com/openai/CLIP), [GCD accuracy](https://github.com/Giphy/celeb-detection-oss), and [NudeNet detection results](https://github.com/notAI-tech/NudeNet).
 
-Evaluate FID:
+- Evaluate FID:
 ```
 python metrics/evaluate_fid.py --dir1 'path/to/generated/image/folder' --dir2 'path/to/coco/GT/folder'
 ```
 
-Evaluate CLIP score:
+- Evaluate CLIP score:
 ```
 python metrics/evaluate_clip_score.py --image_dir 'path/to/generated/image/folder' --prompts_path './prompts_csv/coco_30k.csv'
 ```
 
-Evaluate GCD accuracy:
+- Evaluate GCD accuracy (please refer to the [GCD installation guideline](https://github.com/Shilin-LU/MACE/tree/main/metrics)):
 ```
+conda activate GCD
 python metrics/evaluate_by_GCD.py --image_folder 'path/to/generated/image/folder'
 ```
 
-Evaluate NudeNet detection results:
+- Evaluate NudeNet detection results (please refer to the [NudeNet installation guideline](https://github.com/notAI-tech/NudeNet)):
 ```
 python metrics/evaluate_by_nudenet.py --folder 'path/to/generated/image/folder'
 ```
 
-Evaluate CLIP classification accuracy:
+- Evaluate CLIP classification accuracy:
 ```
 python metrics/evaluate_clip_accuracy.py --base_folder 'path/to/generated/image/folder'
 ```

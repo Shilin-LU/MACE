@@ -1,4 +1,4 @@
-# MACE: Mass Concept Erasure in Diffusion Models (CVPR 2024)
+# [CVPR 2024] MACE: Mass Concept Erasure in Diffusion Models
 
 <!-- ## [<a href="https://shilin-lu.github.io/tf-icon.github.io/" target="_blank">Project Page</a>] [<a href="https://entuedu-my.sharepoint.com/:b:/g/personal/shilin002_e_ntu_edu_sg/EWRDLuFDrs5Ll0KGuMtvtbUBhBZcSw2roKCo96iCWgpMZQ?e=rEv3As" target="_blank">Poster</a>] -->
 
@@ -51,6 +51,7 @@ The rapid expansion of large-scale text-to-image diffusion models has raised gro
     - [Creating a Conda Environment](#creating-a-conda-environment)
     - [Install Grounded-SAM to Prepare Masks for LoRA Tuning](#install-grounded\-sam-to-prepare-masks-for-lora-tuning)
     - [Install Other Dependencies](#install-other-dependencies)
+  - [Finetuned Models Using MACE](#finetuned-models-using-mace) 
   - [Data Preparation](#data-preparation) 
   - [Training MACE to Erase Concepts](#training-mace-to-erase-concepts)
   - [Sampling from the Modified Model](#sampling-from-the-modified-model)
@@ -119,6 +120,19 @@ pip install transformers==4.38.1
 pip install accelerate openai omegaconf
 ```
 
+## Finetuned Models Using MACE
+
+We provide our finetuned Stable Diffusion v1.4 with MACE.
+
+| Concept Type to Erase |Concept Number| Pretrained Model |
+|---|---|---|
+| Celebrity |1| link | 
+| rowspan="2" |5| link | 
+| rowspan="3" |10| link | 
+| rowspan="4" |100| link | 
+| Explicit Content |-| link | 
+| Artistic Style | 100 | link | 
+
 ## Data Preparation
 
 To erase concepts, 8 images along with their respective segmentation masks should be generated for each concept. To prepare the data for your intended concept, configure your settings in `configs/example.yaml` and execute the command:
@@ -135,7 +149,7 @@ After preparing the data, you can specify your training parameters in the same c
 python training.py configs/example.yaml
 ```
 
-## Sampling from the Modified Model
+## Sampling from the Finetuned Model
 
 The modified model can be tested by running:
 
@@ -172,7 +186,7 @@ python metrics/evaluate_clip_accuracy.py --base_folder 'path/to/generated/image/
 ```
 
 ## Acknowledgments
-We thank the following contributors that our code is based on: [Diffusers](https://github.com/huggingface/diffusers), [Concept-Ablation](https://github.com/nupurkmr9/concept-ablation), [Forget-Me-Not](https://github.com/SHI-Labs/Forget-Me-Not), and [UCE](https://github.com/rohitgandikota/unified-concept-editing).
+We thank the following contributors that our code is based on: [Diffusers](https://github.com/huggingface/diffusers), [Concept-Ablation](https://github.com/nupurkmr9/concept-ablation), [Forget-Me-Not](https://github.com/SHI-Labs/Forget-Me-Not), [UCE](https://github.com/rohitgandikota/unified-concept-editing).
 
 
 <!-- ## Citation

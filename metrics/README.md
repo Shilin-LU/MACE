@@ -48,5 +48,5 @@ pip install --upgrade scikit-image
 
 ```
 conda activate GCD
-python metrics/evaluate_by_GCD.py --image_folder 'path/to/generated/image/folder'
+CUDA_VISIBLE_DEVICES=0 python metrics/evaluate_by_GCD.py --image_folder 'path/to/generated/image/folder'
 ```

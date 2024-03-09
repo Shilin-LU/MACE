@@ -23,6 +23,8 @@ The rapid expansion of large-scale text-to-image diffusion models has raised gro
 
 ![framework](assets/overview.png)
 
+(a) Our framework focuses on tuning the prompts-related projection matrices within cross-attention (CA) blocks. (b) The pretrained U-Net's CA blocks are refined using a closed-form solution, discouraging the model from embedding the residual information of the target phrase into surrounding words. (c) For each concept targeted for removal, a distinct LoRA module is learned to eliminate its intrinsic information. (d) A closed-form solution is introduced to integrate multiple LoRA modules without interfering with one another while averting catastrophic forgetting.
+
 <!-- # Updates:
 
 **19/06/23** 🧨 Diffusers implementation of Plug-and-Play is available [here](https://github.com/MichalGeyer/pnp-diffusers). -->
@@ -52,7 +54,7 @@ The rapid expansion of large-scale text-to-image diffusion models has raised gro
     - [Install Grounded-SAM to Prepare Masks for LoRA Tuning](#install-grounded\-sam-to-prepare-masks-for-lora-tuning)
     - [Install Other Dependencies](#install-other-dependencies)
   - [Finetuned Models Using MACE](#finetuned-models-using-mace) 
-  - [Data Preparation](#data-preparation) 
+  - [Data Preparation for Training MACE](#data-preparation-for-training-mace) 
   - [Training MACE to Erase Concepts](#training-mace-to-erase-concepts)
   - [Sampling from the Modified Model](#sampling-from-the-modified-model)
   - [Acknowledgments](#acknowledgments)
@@ -74,12 +76,12 @@ conda install pytorch==2.0.1 torchvision==0.15.2 pytorch-cuda=11.7 -c pytorch -c
 
 ### Install Grounded-SAM to Prepare Masks for LoRA Tuning
 
-You have the option to utilize alternative segmentation models and bypass this section; however, be aware that performance might suffer if masks are not employed.
+You have the option to utilize alternative segmentation models and bypass this section; however, be aware that performance might suffer if masks are not precise or not employed.
 
 ```
 export AM_I_DOCKER=False
 export BUILD_WITH_CUDA=True
-export CUDA_HOME=/path/to/cuda-11.3/
+# export CUDA_HOME=/path/to/cuda-11.7/
 
 cd MACE
 git clone https://github.com/IDEA-Research/Grounded-Segment-Anything.git
@@ -124,45 +126,51 @@ pip install accelerate openai omegaconf
 
 We provide several finetuned Stable Diffusion v1.4 with MACE.
 
-| Concept Type to Erase | Finetuned Model |
+<!-- | Concept Type to Erase | Finetuned Model |
 |---|---|
 | Celebrity Erasure | OneDrive link | 
 | Artistic Style Erasure | OneDrive link | 
 | Object Erasure | OneDrive link | 
-| Explicit Content Erasure | OneDrive link | 
+| Explicit Content Erasure | OneDrive link |  -->
 
 
-## Data Preparation
+## Data Preparation for Training MACE
 
 To erase concepts, 8 images along with their respective segmentation masks should be generated for each concept. To prepare the data for your intended concept, configure your settings in `configs/example.yaml` and execute the command:
 
 ```
-python data_preparation.py configs/example.yaml
+CUDA_VISIBLE_DEVICES=0 python data_preparation.py configs/example.yaml
 ```
+
+Before beginning the mass concept erasing process, ensure that you have pre-cached the prior knowledge (e.g., MSCOCO) and domain-specific knowledge (e.g., certain celebrities, artistic styles, or objects) you wish to retain. 
+
+- You can download our pre-cached files from [this OneDrive folder](https://entuedu-my.sharepoint.com/:f:/g/personal/shilin002_e_ntu_edu_sg/EiyepLM2qoFEh_kQ0kO4IzQBrO-owFukvM40dEibYY4Qlw?e=i5SDf3). Once downloaded, place these files in the `./cache/` for use.
+
+- Alternatively, to preserve additional knowledge of your choice, you can cache the information by modifying the script `src/cache_coco.py`.
 
 ## Training MACE to Erase Concepts
 
 After preparing the data, you can specify your training parameters in the same configuration file `configs/example.yaml` and run the following command:
 
 ```
-python training.py configs/example.yaml
+CUDA_VISIBLE_DEVICES=0 python training.py configs/example.yaml
 ```
 
 ## Sampling from the Finetuned Model
 
-The modified model can be simply tested by running the following command to generate several images:
+The finetuned model can be simply tested by running the following command to generate several images:
 
 ```
-python inference.py \
-       --num_images 3 \
-       --prompt your prompt \
-       --model_path /path/to/model \
-       --save_path /path/to/save/folder
+CUDA_VISIBLE_DEVICES=0 python inference.py \
+          --num_images 3 \
+          --prompt 'your_prompt' \
+          --model_path /path/to/model \
+          --save_path /path/to/save/folder
 ```
 
 To produce lots of images based on a list of prompts with with predetermined seeds (e.g., from a CSV file), execute the command below:
 
-- sample images using models finetuned to avoid producing portraits of specific celebrities:
+- sample images using models finetuned to avoid producing portraits of specific celebrities (the hyperparameter `step` should be set to the same value as `num_processes`):
 
 ```
 CUDA_VISIBLE_DEVICES=0,1,2,3 accelerate launch \
@@ -174,7 +182,7 @@ CUDA_VISIBLE_DEVICES=0,1,2,3 accelerate launch \
           --step 4
 ```
 
-- sample images using models finetuned to forget specific objects:
+<!-- - sample images using models finetuned to forget specific objects:
 
 ```
 CUDA_VISIBLE_DEVICES=0,1,2,3 accelerate launch \
@@ -184,35 +192,35 @@ CUDA_VISIBLE_DEVICES=0,1,2,3 accelerate launch \
           --save_path /path/to/save/folder \
           --model_name /path/to/model \
           --step 4
-```
+``` -->
 
 ## Metrics Evaluation
 During our evaluation, we employ various metrics including [FID](https://github.com/GaParmar/clean-fid), [CLIP score](https://github.com/openai/CLIP), [CLIP classification accuracy](https://github.com/openai/CLIP), [GCD accuracy](https://github.com/Giphy/celeb-detection-oss), and [NudeNet detection results](https://github.com/notAI-tech/NudeNet).
 
 - Evaluate FID:
 ```
-python metrics/evaluate_fid.py --dir1 'path/to/generated/image/folder' --dir2 'path/to/coco/GT/folder'
+CUDA_VISIBLE_DEVICES=0 python metrics/evaluate_fid.py --dir1 'path/to/generated/image/folder' --dir2 'path/to/coco/GT/folder'
 ```
 
 - Evaluate CLIP score:
 ```
-python metrics/evaluate_clip_score.py --image_dir 'path/to/generated/image/folder' --prompts_path './prompts_csv/coco_30k.csv'
+CUDA_VISIBLE_DEVICES=0 python metrics/evaluate_clip_score.py --image_dir 'path/to/generated/image/folder' --prompts_path './prompts_csv/coco_30k.csv'
 ```
 
 - Evaluate GCD accuracy. When utilizing this script for detection, please ensure that the content within the input directory consists solely of images, without the need to navigate into subdirectories. This precaution helps prevent errors during the process. (please refer to the [GCD installation guideline](https://github.com/Shilin-LU/MACE/tree/main/metrics)):
 ```
 conda activate GCD
-python metrics/evaluate_by_GCD.py --image_folder 'path/to/generated/image/folder'
+CUDA_VISIBLE_DEVICES=0 python metrics/evaluate_by_GCD.py --image_folder 'path/to/generated/image/folder'
 ```
 
 - Evaluate NudeNet detection results (please refer to the [NudeNet installation guideline](https://github.com/notAI-tech/NudeNet)):
 ```
-python metrics/evaluate_by_nudenet.py --folder 'path/to/generated/image/folder'
+CUDA_VISIBLE_DEVICES=0 python metrics/evaluate_by_nudenet.py --folder 'path/to/generated/image/folder'
 ```
 
 - Evaluate CLIP classification accuracy:
 ```
-python metrics/evaluate_clip_accuracy.py --base_folder 'path/to/generated/image/folder'
+CUDA_VISIBLE_DEVICES=0 python metrics/evaluate_clip_accuracy.py --base_folder 'path/to/generated/image/folder'
 ```
 
 ## Acknowledgments

@@ -168,9 +168,7 @@ CUDA_VISIBLE_DEVICES=0 python inference.py \
           --save_path /path/to/save/folder
 ```
 
-To produce lots of images based on a list of prompts with with predetermined seeds (e.g., from a CSV file), execute the command below:
-
-- sample images using models finetuned to avoid producing portraits of specific celebrities (the hyperparameter `step` should be set to the same value as `num_processes`):
+To produce lots of images based on a list of prompts with with predetermined seeds (e.g., from a CSV file `./prompts_csv/celebrity_100_concepts.csv`), execute the command below (the hyperparameter `step` should be set to the same value as `num_processes`):
 
 ```
 CUDA_VISIBLE_DEVICES=0,1,2,3 accelerate launch \

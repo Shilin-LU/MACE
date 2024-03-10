@@ -14,11 +14,9 @@ def main(conf):
 
     # stage 1 & 2 (CFR and LoRA training)
     cfr_lora_training(conf.MACE)
-    OmegaConf.save(config=conf, f=f"{conf.MACE.output_dir}/configs.yaml")
 
     # stage 3 (Multi-LoRA fusion)
     multi_lora_fusion(conf.MACE)
-    OmegaConf.save(config=conf, f=f"{conf.MACE.final_save_path}/configs.yaml")
 
     # test the erased model
     if conf.MACE.test_erased_model:

@@ -136,10 +136,10 @@ We provide several finetuned Stable Diffusion v1.4 with MACE.
 
 ## Data Preparation for Training MACE
 
-To erase concepts, 8 images along with their respective segmentation masks should be generated for each concept. To prepare the data for your intended concept, configure your settings in `configs/example.yaml` and execute the command:
+To erase concepts, 8 images along with their respective segmentation masks should be generated for each concept. To prepare the data for your intended concept, configure your settings in `configs/object/ship.yaml` and execute the command:
 
 ```
-CUDA_VISIBLE_DEVICES=0 python data_preparation.py configs/example.yaml
+CUDA_VISIBLE_DEVICES=0 python data_preparation.py configs/object/ship.yaml
 ```
 
 Before beginning the mass concept erasing process, ensure that you have pre-cached the prior knowledge (e.g., MSCOCO) and domain-specific knowledge (e.g., certain celebrities, artistic styles, or objects) you wish to retain. 
@@ -150,10 +150,10 @@ Before beginning the mass concept erasing process, ensure that you have pre-cach
 
 ## Training MACE to Erase Concepts
 
-After preparing the data, you can specify your training parameters in the same configuration file `configs/example.yaml` and run the following command:
+After preparing the data, you can specify your training parameters in the same configuration file `configs/object/ship.yaml` and run the following command:
 
 ```
-CUDA_VISIBLE_DEVICES=0 python training.py configs/example.yaml
+CUDA_VISIBLE_DEVICES=0 python training.py configs/object/ship.yaml
 ```
 
 ## Sampling from the Finetuned Model

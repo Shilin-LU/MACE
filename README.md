@@ -122,7 +122,7 @@ pip install diffusers==0.22.0 transformers==4.38.1
 pip install accelerate openai omegaconf
 ```
 
-## Finetuned Models Using MACE
+## MACE Finetuned Model Weights
 
 We provide several finetuned Stable Diffusion v1.4 with MACE.
 
@@ -144,7 +144,7 @@ CUDA_VISIBLE_DEVICES=0 python data_preparation.py configs/example.yaml
 
 Before beginning the mass concept erasing process, ensure that you have pre-cached the prior knowledge (e.g., MSCOCO) and domain-specific knowledge (e.g., certain celebrities, artistic styles, or objects) you wish to retain. 
 
-- You can download our pre-cached files from [this OneDrive folder](https://entuedu-my.sharepoint.com/:f:/g/personal/shilin002_e_ntu_edu_sg/EiyepLM2qoFEh_kQ0kO4IzQBrO-owFukvM40dEibYY4Qlw?e=i5SDf3). Once downloaded, place these files in the `./cache/` for use.
+- You can download our pre-cached files from [this OneDrive folder](https://entuedu-my.sharepoint.com/:f:/g/personal/shilin002_e_ntu_edu_sg/EiyepLM2qoFEh_kQ0kO4IzQBu6YZllxATJvv7ffguvFbBQ?e=v4JeyI). Once downloaded, place these files in the `./cache/` for use.
 
 - Alternatively, to preserve additional knowledge of your choice, you can cache the information by modifying the script `src/cache_coco.py`.
 

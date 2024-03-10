@@ -52,11 +52,12 @@ The rapid expansion of large-scale text-to-image diffusion models has raised gro
   - [Setup](#setup)
     - [Creating a Conda Environment](#creating-a-conda-environment)
     - [Install Grounded-SAM to Prepare Masks for LoRA Tuning](#install-grounded\-sam-to-prepare-masks-for-lora-tuning)
-    - [Install Other Dependencies](#install-other-dependencies)
-  - [Finetuned Models Using MACE](#finetuned-models-using-mace) 
+    - [Install Other Dependencies](#install-other-dependencies) 
   - [Data Preparation for Training MACE](#data-preparation-for-training-mace) 
   - [Training MACE to Erase Concepts](#training-mace-to-erase-concepts)
   - [Sampling from the Modified Model](#sampling-from-the-modified-model)
+  - [MACE Finetuned Model Weights](#mace-finetuned-model-weights)
+  - [Metrics Evaluation](#metrics-evaluation)
   - [Acknowledgments](#acknowledgments)
   - [Citation](#citation)
 
@@ -122,18 +123,6 @@ pip install diffusers==0.22.0 transformers==4.38.1
 pip install accelerate openai omegaconf
 ```
 
-## MACE Finetuned Model Weights
-
-We provide several finetuned Stable Diffusion v1.4 with MACE.
-
-| Concept Type to Erase | Finetuned Model |
-|---|---|
-| Object Erasure | [OneDrive link](https://entuedu-my.sharepoint.com/:f:/g/personal/shilin002_e_ntu_edu_sg/Ehz3tkQ2Y2tFuo7JIcD-17kBR1eqZvL5DXl7WH5aL25Msg?e=UyBSeC) | 
-| Celebrity Erasure | [OneDrive link](https://entuedu-my.sharepoint.com/:f:/g/personal/shilin002_e_ntu_edu_sg/EhjcmpbXQtJOscKI-30B0UcBSqlq4UUTURogqzevM4FKHg?e=Jkh0cx) | 
-| Artistic Style Erasure | [OneDrive link](https://entuedu-my.sharepoint.com/:f:/g/personal/shilin002_e_ntu_edu_sg/EpJAaP7DXr1Ik_k3oy-U9uUBRIYgVs8T4BLefqG-fvp9HQ?e=fCqKWZ) | 
-| Explicit Content Erasure | [OneDrive link](https://entuedu-my.sharepoint.com/:f:/g/personal/shilin002_e_ntu_edu_sg/EhThNgbQEmtKo9VuZqw7NdABAIi9ALFjaBkqMZnycBtdMQ?e=lOGVsr) | 
-
-
 ## Data Preparation for Training MACE
 
 To erase concepts, 8 images along with their respective segmentation masks should be generated for each concept. To prepare the data for your intended concept, configure your settings in `configs/object/ship.yaml` and execute the command:
@@ -179,6 +168,17 @@ CUDA_VISIBLE_DEVICES=0,1,2,3 accelerate launch \
           --model_name /path/to/saved_model/LoRA_fusion_model \
           --step 4
 ```
+
+## MACE Finetuned Model Weights
+
+We provide several finetuned Stable Diffusion v1.4 with MACE.
+
+| Concept Type to Erase | Finetuned Model |
+|---|---|
+| Object Erasure | [OneDrive link](https://entuedu-my.sharepoint.com/:f:/g/personal/shilin002_e_ntu_edu_sg/Ehz3tkQ2Y2tFuo7JIcD-17kBR1eqZvL5DXl7WH5aL25Msg?e=UyBSeC) | 
+| Celebrity Erasure | [OneDrive link](https://entuedu-my.sharepoint.com/:f:/g/personal/shilin002_e_ntu_edu_sg/EhjcmpbXQtJOscKI-30B0UcBSqlq4UUTURogqzevM4FKHg?e=Jkh0cx) | 
+| Artistic Style Erasure | [OneDrive link](https://entuedu-my.sharepoint.com/:f:/g/personal/shilin002_e_ntu_edu_sg/EpJAaP7DXr1Ik_k3oy-U9uUBRIYgVs8T4BLefqG-fvp9HQ?e=fCqKWZ) | 
+| Explicit Content Erasure | [OneDrive link](https://entuedu-my.sharepoint.com/:f:/g/personal/shilin002_e_ntu_edu_sg/EhThNgbQEmtKo9VuZqw7NdABAIi9ALFjaBkqMZnycBtdMQ?e=lOGVsr) | 
 
 <!-- - sample images using models finetuned to forget specific objects:
 

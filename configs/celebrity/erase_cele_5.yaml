@@ -13,7 +13,7 @@ MACE:
   learning_rate: 1.0e-04
   max_train_steps: 50
   train_preserve_scale: 1.0e-4
-  fuse_preserve_scale: 1.0e-4 #1.0e-5
+  fuse_preserve_scale: 1.0e-4
   mapping_concept: 
     - 'a person'
     - 'a person'

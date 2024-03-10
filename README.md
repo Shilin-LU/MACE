@@ -106,13 +106,13 @@ pip install -e ./recognize-anything/
 Download the pretrained weights of Grounded-SAM.
 
 ```
-cd Grounded-Segment-Anything
+cd ..    # cd Grounded-Segment-Anything
 
 # Download the pretrained groundingdino-swin-tiny model:
 wget https://github.com/IDEA-Research/GroundingDINO/releases/download/v0.1.0-alpha/groundingdino_swint_ogc.pth
 
 # Download the pretrained SAM model:
-wget https://huggingface.co/lkeab/hq-sam/resolve/main/sam_hq_vit_h.pth?download=true
+wget https://huggingface.co/lkeab/hq-sam/resolve/main/sam_hq_vit_h.pth
 ```
 
 ### Install Other Dependencies

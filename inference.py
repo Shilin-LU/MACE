@@ -94,38 +94,19 @@ if __name__ == "__main__":
     parser.add_argument('--prompt', type=str, default=None)
     parser.add_argument('--model_path', type=str, default=None)
     parser.add_argument('--save_path', type=str, default=None)
-
     args = parser.parse_args()
-    
-    conf_path = sys.argv[1]
-    conf = OmegaConf.load(conf_path)
+
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
-    generate_training_data_flag = False
-    
     steps = 30
-    if generate_training_data_flag:
-        output_dir = conf.MACE.input_data_dir
-        model_id = 'CompVis/stable-diffusion-v1-4'
-        num_images = args.num_images
-    else:
-        if args.model_path is not None:
-            model_id = args.model_path
-        else:
-            model_id = conf.MACE.final_save_path
-            
-        if args.save_path is not None:
-            output_dir = args.save_path
-        else:
-            output_dir = conf.MACE.final_save_path
-            
-        num_images = args.num_images
-        prompt = args.prompt
+    model_id = args.model_path
+    output_dir = args.save_path
+    num_images = args.num_images
+    prompt = args.prompt
         
     
     main(OmegaConf.create({
         "pretrained_model_name_or_path": model_id,
-        "multi_concept": conf.MACE.multi_concept,
-        "generate_training_data": generate_training_data_flag,
+        "generate_training_data": False,
         "device": device,
         "steps": steps,
         "output_dir": output_dir,

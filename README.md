@@ -164,7 +164,7 @@ The finetuned model can be simply tested by running the following command to gen
 CUDA_VISIBLE_DEVICES=0 python inference.py \
           --num_images 3 \
           --prompt 'your_prompt' \
-          --model_path /path/to/model \
+          --model_path /path/to/saved_model/LoRA_fusion_model \
           --save_path /path/to/save/folder
 ```
 
@@ -176,7 +176,7 @@ CUDA_VISIBLE_DEVICES=0,1,2,3 accelerate launch \
           src/sample_images_from_csv.py \
           --prompts_path ./prompts_csv/celebrity_100_concepts.csv \
           --save_path /path/to/save/folder \
-          --model_name /path/to/model \
+          --model_name /path/to/saved_model/LoRA_fusion_model \
           --step 4
 ```
 

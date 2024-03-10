@@ -1,4 +1,4 @@
-import os, gc, sys
+import os, gc
 import torch
 from diffusers import StableDiffusionPipeline, DPMSolverMultistepScheduler
 from omegaconf import OmegaConf
@@ -54,34 +54,7 @@ def main(args):
         
         torch.cuda.empty_cache()
         gc.collect()
-                
-    # else:
-    #     pipe.scheduler = DPMSolverMultistepScheduler.from_config(pipe.scheduler.config)
-    #     num_images = 3
-    #     output_folder = f"{args.output_dir}/generated_images"
-    #     os.makedirs(output_folder, exist_ok=True)
-    #     print(f"Inference using {args.pretrained_model_name_or_path}...")
-    #     for single_concept in args.multi_concept:
-    #         for c, t in single_concept:
-    #             c = c.replace('-', ' ')
-    #             if t == "object":
-    #                 prompt = f"a photo of the {c}"
-    #                 print(f'Inferencing: {prompt}')
-    #                 images = pipe(prompt, num_inference_steps=args.steps, guidance_scale=7.5, num_images_per_prompt=num_images).images
-    #                 for i, im in enumerate(images):
-    #                     im.save(f"{output_folder}/o_{prompt.replace(' ', '-')}_{i}.jpg")  
-    #             elif t == "style":
-    #                 prompt = f"a photo in the style of {c}"
-    #                 print(f'Inferencing: {prompt}')
-    #                 images = pipe(prompt, num_inference_steps=args.steps, guidance_scale=7.5, num_images_per_prompt=num_images).images
-    #                 for i, im in enumerate(images):
-    #                     im.save(f"{output_folder}/o_{prompt.replace(' ', '-')}_{i}.jpg")  
-    #             else:
-    #                 raise ValueError("unknown concept type!")
-    #             del images
-    #             torch.cuda.empty_cache()
-    #             gc.collect()
-       
+
     del pipe
     torch.cuda.empty_cache()
     gc.collect()
@@ -102,7 +75,6 @@ if __name__ == "__main__":
     output_dir = args.save_path
     num_images = args.num_images
     prompt = args.prompt
-        
     
     main(OmegaConf.create({
         "pretrained_model_name_or_path": model_id,

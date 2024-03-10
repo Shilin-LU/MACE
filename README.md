@@ -126,12 +126,12 @@ pip install accelerate openai omegaconf
 
 We provide several finetuned Stable Diffusion v1.4 with MACE.
 
-<!-- | Concept Type to Erase | Finetuned Model |
+| Concept Type to Erase | Finetuned Model |
 |---|---|
-| Celebrity Erasure | OneDrive link | 
-| Artistic Style Erasure | OneDrive link | 
-| Object Erasure | OneDrive link | 
-| Explicit Content Erasure | OneDrive link |  -->
+| Object Erasure | [OneDrive link](https://entuedu-my.sharepoint.com/:f:/g/personal/shilin002_e_ntu_edu_sg/Ehz3tkQ2Y2tFuo7JIcD-17kBR1eqZvL5DXl7WH5aL25Msg?e=UyBSeC) | 
+| Celebrity Erasure | [OneDrive link](https://entuedu-my.sharepoint.com/:f:/g/personal/shilin002_e_ntu_edu_sg/EhjcmpbXQtJOscKI-30B0UcBSqlq4UUTURogqzevM4FKHg?e=Jkh0cx) | 
+| Artistic Style Erasure | [OneDrive link](https://entuedu-my.sharepoint.com/:f:/g/personal/shilin002_e_ntu_edu_sg/EpJAaP7DXr1Ik_k3oy-U9uUBRIYgVs8T4BLefqG-fvp9HQ?e=fCqKWZ) | 
+| Explicit Content Erasure | [OneDrive link](https://entuedu-my.sharepoint.com/:f:/g/personal/shilin002_e_ntu_edu_sg/EhThNgbQEmtKo9VuZqw7NdABAIi9ALFjaBkqMZnycBtdMQ?e=lOGVsr) | 
 
 
 ## Data Preparation for Training MACE

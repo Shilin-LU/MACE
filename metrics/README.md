@@ -1,4 +1,4 @@
-# GIPHY Celebrity Detector Installation Guide (by Zilan Wang)
+# GIPHY Celebrity Detector Installation Guide
 
 This guide offers a step-by-step procedure for installing and configuring the GIPHY Celebrity Detector. We recommend initially consulting the [official installation instructions](https://github.com/Giphy/celeb-detection-oss/tree/master/examples). Should you encounter any difficulties or achieve less than satisfactory results, please consider following the instructions provided herein to try a successful installation.
 

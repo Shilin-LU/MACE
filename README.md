@@ -227,12 +227,11 @@ We thank the following contributors that our code is based on: [Diffusers](https
 
 ## Citation
 If you find the repo useful, please consider citing.
-<!-- ```
-@inproceedings{lu2023tf,
-  title={TF-ICON: Diffusion-Based Training-Free Cross-Domain Image Composition},
-  author={Lu, Shilin and Liu, Yanzhu and Kong, Adams Wai-Kin},
-  booktitle={Proceedings of the IEEE/CVF International Conference on Computer Vision},
-  pages={2294--2305},
-  year={2023}
+```
+@article{lu2024mace,
+ title={MACE: Mass Concept Erasure in Diffusion Models}, 
+ author={Lu, Shilin and Wang, Zilan and Li, Leyang and Liu, Yanzhu and Kong, Adams Wai-Kin},
+ journal={arXiv preprint arXiv:2403.06135},
+ year={2024}
 }
-``` -->
+```

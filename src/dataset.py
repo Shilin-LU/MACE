@@ -9,8 +9,8 @@ from openai import OpenAI
 import regex as re
 
 
-BASE_URL = 'https://oneapi.xty.app/v1'
-API_KEY = 'sk-BqA94WpgIKRyAUBQ0cF0F5936134461cA33b2cF04f5b87A2'
+BASE_URL = ''
+API_KEY = ''
 
 
 def clean_prompt(class_prompt_collection):

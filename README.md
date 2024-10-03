@@ -212,6 +212,7 @@ CUDA_VISIBLE_DEVICES=0 python metrics/evaluate_by_GCD.py --image_folder 'path/to
 ```
 
 - Evaluate NudeNet detection results (please refer to the [NudeNet installation guideline](https://github.com/notAI-tech/NudeNet)):
+**Please adjust the threshold [here](https://github.com/notAI-tech/NudeNet/blob/6ccc81c6c305cccfd46d92b414f8a5c0a816574d/nudenet/nudenet.py#L98) to replicate the results presented in the paper.**
 ```
 CUDA_VISIBLE_DEVICES=0 python metrics/evaluate_by_nudenet.py --folder 'path/to/generated/image/folder'
 ```

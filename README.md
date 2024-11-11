@@ -53,7 +53,8 @@ The rapid expansion of large-scale text-to-image diffusion models has raised gro
     - [Creating a Conda Environment](#creating-a-conda-environment)
     - [Install Grounded-SAM to Prepare Masks for LoRA Tuning](#install-grounded\-sam-to-prepare-masks-for-lora-tuning)
     - [Install Other Dependencies](#install-other-dependencies) 
-  - [Data Preparation for Training MACE](#data-preparation-for-training-mace) 
+  - [Data Preparation for Training MACE](#data-preparation-for-training-mace)
+    - [Transformers-based Grounded SAM](#transformers-based-grounded-sam)
   - [Training MACE to Erase Concepts](#training-mace-to-erase-concepts)
   - [Sampling from the Modified Model](#sampling-from-the-modified-model)
   - [MACE Finetuned Model Weights](#mace-finetuned-model-weights)
@@ -120,7 +121,7 @@ wget https://huggingface.co/lkeab/hq-sam/resolve/main/sam_hq_vit_h.pth
 
 ```
 pip install diffusers==0.22.0 transformers==4.38.1
-pip install accelerate openai omegaconf
+pip install accelerate openai omegaconf opencv-python
 ```
 
 ## Data Preparation for Training MACE
@@ -136,6 +137,16 @@ Before beginning the mass concept erasing process, ensure that you have pre-cach
 - You can download our pre-cached files from [this OneDrive folder](https://entuedu-my.sharepoint.com/:f:/g/personal/shilin002_e_ntu_edu_sg/EiyepLM2qoFEh_kQ0kO4IzQBu6YZllxATJvv7ffguvFbBQ?e=v4JeyI). Once downloaded, place these files in the `./cache/` for use.
 
 - Alternatively, to preserve additional knowledge of your choice, you can cache the information by modifying the script `src/cache_coco.py`.
+
+### Transformers-based Grounded SAM
+
+In order to ease the configuration of environment, you can also use transformers-based grounded sam from the file `data_preparation_transformers.py`. It does not require the CUDA version as long as you can run `transformers` library. The usage is the same as the previous.
+
+```
+CUDA_VISIBLE_DEVICES=0 python data_preparation_transformers.py configs/object/ship.yaml
+```
+
+All you need to do is to determine the `deterctor_id` and `segmenter_id`, the default value is `detector_id = "IDEA-Research/grounding-dino-base"` and `segmenter_id = "facebook/sam-vit-huge"` in the file. You can also change the `threshold` hyperparameter to get refined mask.
 
 ## Training MACE to Erase Concepts
 

@@ -121,7 +121,7 @@ wget https://huggingface.co/lkeab/hq-sam/resolve/main/sam_hq_vit_h.pth
 
 ```
 pip install diffusers==0.22.0 transformers==4.38.1
-pip install accelerate openai omegaconf
+pip install accelerate openai omegaconf opencv-python
 ```
 
 ## Data Preparation for Training MACE

@@ -4,7 +4,7 @@ import sys
 from omegaconf import OmegaConf
 import torch
 from inference import main as inference
-from testGSAM import grounded_segmentation
+from transformer_gsam_utils import grounded_segmentation
 
 def main(conf):
     

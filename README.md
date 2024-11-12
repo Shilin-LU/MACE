@@ -56,7 +56,7 @@ The rapid expansion of large-scale text-to-image diffusion models has raised gro
   - [Data Preparation for Training MACE](#data-preparation-for-training-mace)
     - [Grounded SAM (HuggingFace Version)](#grounded-sam-huggingface-version)
     - [Grounded SAM (Official Version)](#grounded-sam-official-version)
-    - [Download Pre-cached Files](#download-pre--cached-files)
+    - [Download Pre-cached Files](#download-pre-cached-files)
   - [Training MACE to Erase Concepts](#training-mace-to-erase-concepts)
   - [Sampling from the Modified Model](#sampling-from-the-modified-model)
   - [MACE Finetuned Model Weights](#mace-finetuned-model-weights)

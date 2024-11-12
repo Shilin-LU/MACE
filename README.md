@@ -54,8 +54,8 @@ The rapid expansion of large-scale text-to-image diffusion models has raised gro
     - [Install Grounded-SAM to Prepare Masks for LoRA Tuning](#install-grounded\-sam-to-prepare-masks-for-lora-tuning)
     - [Install Other Dependencies](#install-other-dependencies) 
   - [Data Preparation for Training MACE](#data-preparation-for-training-mace)
-    - [Grounded SAM (HuggingFace Version)](#grounded-sam-(huggingface-version))
-    - [Grounded SAM (Official Version)](#grounded-sam-(official-version))
+    - [Grounded SAM (HuggingFace Version)](#grounded-sam-huggingface-version)
+    - [Grounded SAM (Official Version)](#grounded-sam-official-version)
     - [Download Pre-cached Files](#download-pre--cached-files)
   - [Training MACE to Erase Concepts](#training-mace-to-erase-concepts)
   - [Sampling from the Modified Model](#sampling-from-the-modified-model)
@@ -80,7 +80,7 @@ conda install pytorch==2.0.1 torchvision==0.15.2 pytorch-cuda=11.7 -c pytorch -c
 
 ### Install Grounded-SAM (Official Version) to Prepare Masks for LoRA Tuning
 
-Note: This process can be complex. You may skip this section and use the alternative Hugging Face version instead.
+Note: This installation process can be complex. You may skip this section and use the [HuggingFace version](https://github.com/Shilin-LU/MACE?tab=readme-ov-file#grounded-sam-huggingface-version) to prepare data instead.
 
 ```
 export AM_I_DOCKER=False
@@ -247,10 +247,11 @@ We thank the following contributors that our code is based on: [Diffusers](https
 ## Citation
 If you find the repo useful, please consider citing.
 ```
-@article{lu2024mace,
- title={MACE: Mass Concept Erasure in Diffusion Models}, 
- author={Lu, Shilin and Wang, Zilan and Li, Leyang and Liu, Yanzhu and Kong, Adams Wai-Kin},
- journal={arXiv preprint arXiv:2403.06135},
- year={2024}
+@inproceedings{lu2024mace,
+  title={Mace: Mass concept erasure in diffusion models},
+  author={Lu, Shilin and Wang, Zilan and Li, Leyang and Liu, Yanzhu and Kong, Adams Wai-Kin},
+  booktitle={Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition},
+  pages={6430--6440},
+  year={2024}
 }
 ```

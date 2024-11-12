@@ -54,7 +54,9 @@ The rapid expansion of large-scale text-to-image diffusion models has raised gro
     - [Install Grounded-SAM to Prepare Masks for LoRA Tuning](#install-grounded\-sam-to-prepare-masks-for-lora-tuning)
     - [Install Other Dependencies](#install-other-dependencies) 
   - [Data Preparation for Training MACE](#data-preparation-for-training-mace)
-    - [Transformers-based Grounded SAM](#transformers-based-grounded-sam)
+    - [Grounded SAM (HuggingFace Version)](#grounded-sam-(huggingface-version))
+    - [Grounded SAM (Official Version)](#grounded-sam-(official-version))
+    - [Download Pre-cached Files](#download-pre--cached-files)
   - [Training MACE to Erase Concepts](#training-mace-to-erase-concepts)
   - [Sampling from the Modified Model](#sampling-from-the-modified-model)
   - [MACE Finetuned Model Weights](#mace-finetuned-model-weights)
@@ -76,9 +78,9 @@ conda activate mace
 conda install pytorch==2.0.1 torchvision==0.15.2 pytorch-cuda=11.7 -c pytorch -c nvidia
 ```
 
-### Install Grounded-SAM to Prepare Masks for LoRA Tuning
+### Install Grounded-SAM (Official Version) to Prepare Masks for LoRA Tuning
 
-You have the option to utilize alternative segmentation models and bypass this section; however, be aware that performance might suffer if masks are not precise or not employed.
+Note: This process can be complex. You may skip this section and use the alternative Hugging Face version instead.
 
 ```
 export AM_I_DOCKER=False
@@ -120,40 +122,45 @@ wget https://huggingface.co/lkeab/hq-sam/resolve/main/sam_hq_vit_h.pth
 ### Install Other Dependencies
 
 ```
-pip install diffusers==0.22.0 transformers==4.38.1
+pip install diffusers==0.22.0 transformers==4.46.2 huggingface_hub==0.25.2
 pip install accelerate openai omegaconf opencv-python
 ```
 
 ## Data Preparation for Training MACE
 
-To erase concepts, 8 images along with their respective segmentation masks should be generated for each concept. To prepare the data for your intended concept, configure your settings in `configs/object/ship.yaml` and execute the command:
+To erase concepts, 8 images along with their respective segmentation masks should be generated for each concept. To prepare the data for your intended concept, configure your settings in `configs/object/erase_ship.yaml` and execute the command:
+
+### Grounded SAM (HuggingFace Version)
+
+In order to ease the configuration of environment, you can also use transformers-based grounded sam from the file `data_preparation_transformers.py`. It does not require the CUDA version as long as you can run `transformers` library. 
 
 ```
-CUDA_VISIBLE_DEVICES=0 python data_preparation.py configs/object/ship.yaml
+CUDA_VISIBLE_DEVICES=0 python data_preparation_transformers.py configs/object/erase_ship.yaml
 ```
 
+All you need to do is to determine the `deterctor_id` and `segmenter_id`, the default value is `detector_id = "IDEA-Research/grounding-dino-base"` and `segmenter_id = "facebook/sam-vit-huge"` in the file. You can also change the `threshold` hyperparameter to get refined mask.
+
+### Grounded SAM (Official Version)
+
+```
+CUDA_VISIBLE_DEVICES=0 python data_preparation.py configs/object/erase_ship.yaml
+```
+
+### Download Pre-cached Files
 Before beginning the mass concept erasing process, ensure that you have pre-cached the prior knowledge (e.g., MSCOCO) and domain-specific knowledge (e.g., certain celebrities, artistic styles, or objects) you wish to retain. 
 
 - You can download our pre-cached files from [this OneDrive folder](https://entuedu-my.sharepoint.com/:f:/g/personal/shilin002_e_ntu_edu_sg/EiyepLM2qoFEh_kQ0kO4IzQBu6YZllxATJvv7ffguvFbBQ?e=v4JeyI). Once downloaded, place these files in the `./cache/` for use.
 
 - Alternatively, to preserve additional knowledge of your choice, you can cache the information by modifying the script `src/cache_coco.py`.
 
-### Transformers-based Grounded SAM
 
-In order to ease the configuration of environment, you can also use transformers-based grounded sam from the file `data_preparation_transformers.py`. It does not require the CUDA version as long as you can run `transformers` library. The usage is the same as the previous.
-
-```
-CUDA_VISIBLE_DEVICES=0 python data_preparation_transformers.py configs/object/ship.yaml
-```
-
-All you need to do is to determine the `deterctor_id` and `segmenter_id`, the default value is `detector_id = "IDEA-Research/grounding-dino-base"` and `segmenter_id = "facebook/sam-vit-huge"` in the file. You can also change the `threshold` hyperparameter to get refined mask.
 
 ## Training MACE to Erase Concepts
 
-After preparing the data, you can specify your training parameters in the same configuration file `configs/object/ship.yaml` and run the following command:
+After preparing the data, you can specify your training parameters in the same configuration file `configs/object/erase_ship.yaml` and run the following command:
 
 ```
-CUDA_VISIBLE_DEVICES=0 python training.py configs/object/ship.yaml
+CUDA_VISIBLE_DEVICES=0 python training.py configs/object/erase_ship.yaml
 ```
 
 ## Sampling from the Finetuned Model

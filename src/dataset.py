@@ -124,13 +124,13 @@ class MACEDataset(Dataset):
             else:
                 raise ValueError(f"Input data path is not provided.")    
             
-            image_paths = list(p.iterdir())
+            image_paths = sorted(list(p.iterdir()))
             single_concept_images_path = []
             single_concept_images_path += image_paths
             self.all_concept_image_path.append(single_concept_images_path)
             
             if t == "object":
-                mask_paths = list(p_mask.iterdir())
+                mask_paths = sorted(list(p_mask.iterdir()))
                 single_concept_masks_path = []
                 single_concept_masks_path += mask_paths
                 self.all_concept_mask_path.append(single_concept_masks_path)

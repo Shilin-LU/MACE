@@ -54,8 +54,8 @@ The rapid expansion of large-scale text-to-image diffusion models has raised gro
     - [Install Grounded-SAM to Prepare Masks for LoRA Tuning](#install-grounded\-sam-to-prepare-masks-for-lora-tuning)
     - [Install Other Dependencies](#install-other-dependencies) 
   - [Data Preparation for Training MACE](#data-preparation-for-training-mace)
-    - [Grounded SAM (HuggingFace Version)](#grounded-sam-huggingface-version)
-    - [Grounded SAM (Official Version)](#grounded-sam-official-version)
+    - [Grounded SAM (HuggingFace Version)](#grounded-sam-huggingface-version-28gb-ram)
+    - [Grounded SAM (Official Version)](#grounded-sam-official-version-24gb-ram)
     - [Download Pre-cached Files](#download-pre-cached-files)
   - [Training MACE to Erase Concepts](#training-mace-to-erase-concepts)
   - [Sampling from the Modified Model](#sampling-from-the-modified-model)
@@ -80,7 +80,7 @@ conda install pytorch==2.0.1 torchvision==0.15.2 pytorch-cuda=11.7 -c pytorch -c
 
 ### Install Grounded-SAM (Official Version) to Prepare Masks for LoRA Tuning
 
-Note: This installation process can be complex. You may skip this section and use the [HuggingFace version](https://github.com/Shilin-LU/MACE?tab=readme-ov-file#grounded-sam-huggingface-version) to prepare data instead.
+Note: This installation process can be complex. You may skip this section and use the [HuggingFace version](https://github.com/Shilin-LU/MACE?tab=readme-ov-file#grounded-sam-huggingface-version) to prepare data instead. The official version can run on a 24GB GPU, while the Hugging Face version likely requires above 28GB.
 
 ```
 export AM_I_DOCKER=False
@@ -130,7 +130,7 @@ pip install accelerate openai omegaconf opencv-python
 
 To erase concepts, 8 images along with their respective segmentation masks should be generated for each concept. To prepare the data for your intended concept, configure your settings in `configs/object/erase_ship.yaml` and execute the command:
 
-### Grounded SAM (HuggingFace Version)
+### Grounded SAM (HuggingFace Version) (~28GB RAM)
 
 In order to ease the configuration of environment, you can also use transformers-based grounded sam from the file `data_preparation_transformers.py`. It does not require the CUDA version as long as you can run `transformers` library. 
 
@@ -140,7 +140,7 @@ CUDA_VISIBLE_DEVICES=0 python data_preparation_transformers.py configs/object/er
 
 All you need to do is to determine the `deterctor_id` and `segmenter_id`, the default value is `detector_id = "IDEA-Research/grounding-dino-base"` and `segmenter_id = "facebook/sam-vit-huge"` in the file. You can also change the `threshold` hyperparameter to get refined mask.
 
-### Grounded SAM (Official Version)
+### Grounded SAM (Official Version) (<24GB RAM)
 
 ```
 CUDA_VISIBLE_DEVICES=0 python data_preparation.py configs/object/erase_ship.yaml

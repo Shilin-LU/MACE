@@ -2,7 +2,7 @@
 
 <!-- ## [<a href="https://shilin-lu.github.io/tf-icon.github.io/" target="_blank">Project Page</a>] [<a href="https://entuedu-my.sharepoint.com/:b:/g/personal/shilin002_e_ntu_edu_sg/EWRDLuFDrs5Ll0KGuMtvtbUBhBZcSw2roKCo96iCWgpMZQ?e=rEv3As" target="_blank">Poster</a>] -->
 
-[![arXiv](https://img.shields.io/badge/arXiv-MACE-green.svg?style=plastic)](https://arxiv.org/abs/2403.06135)
+[![arXiv](https://img.shields.io/badge/arXiv-MACE-green.svg?style=plastic)](https://arxiv.org/abs/2403.06135) [![arXiv](https://img.shields.io/badge/arXiv-ANT-red.svg?style=plastic)](https://arxiv.org/abs/2504.12782)
 
 Official implementation of [MACE: Mass Concept Erasure in Diffusion Models](https://arxiv.org/abs/2403.06135).
 

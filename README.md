@@ -6,6 +6,13 @@
 
 Official implementation of [MACE: Mass Concept Erasure in Diffusion Models](https://arxiv.org/abs/2403.06135).
 
+---
+**Our other works on Concept Erasing/Unlearning:** <br>
+> [Set You Straight: Auto-Steering Denoising Trajectories to Sidestep Unwanted Concepts](https://arxiv.org/abs/2504.12782) <br>
+> Leyang Li*, Shilin Lu*, Yan Ren, Adams Wai-Kin Kong <br>
+> [[arXiv]](https://arxiv.org/abs/2504.12782) [[code]](https://github.com/lileyang1210/ANT)
+---
+
 > **MACE: Mass Concept Erasure in Diffusion Models**<br>
 <!-- > [Gwanghyun Kim](https://gwang-kim.github.io/), Taesung Kwon, [Jong Chul Ye](https://bispl.weebly.com/professor.html) <br> -->
 > Shilin Lu, Zilan Wang, Leyang Li, Yanzhu Liu, Adams Wai-Kin Kong <br>
@@ -245,7 +252,7 @@ We thank the following contributors that our code is based on: [Diffusers](https
 
 
 ## Citation
-If you find the repo useful, please consider citing.
+If you find the repo (or our other works) helpful, please consider citing.
 ```
 @inproceedings{lu2024mace,
   title={Mace: Mass concept erasure in diffusion models},
@@ -253,5 +260,12 @@ If you find the repo useful, please consider citing.
   booktitle={Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition},
   pages={6430--6440},
   year={2024}
+}
+
+@article{li2025set,
+  title={Set you straight: Auto-steering denoising trajectories to sidestep unwanted concepts},
+  author={Li, Leyang and Lu, Shilin and Ren, Yan and Kong, Adams Wai-Kin},
+  journal={arXiv preprint arXiv:2504.12782},
+  year={2025}
 }
 ```

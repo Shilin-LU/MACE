@@ -133,6 +133,31 @@ pip install diffusers==0.22.0 transformers==4.46.2 huggingface_hub==0.25.2
 pip install accelerate openai omegaconf opencv-python
 ```
 
+## LLM Provider for Text Augmentation
+
+MACE uses an LLM to generate text augmentations (captions) for the concepts being erased.
+By default it uses OpenAI (`gpt-3.5-turbo`), but you can switch to **[MiniMax](https://www.minimaxi.com/)** (M2.7 / M2.5) via environment variables — no code changes required.
+
+| Variable | Default | Description |
+|---|---|---|
+| `LLM_PROVIDER` | `openai` | LLM backend: `openai` or `minimax` |
+| `MINIMAX_API_KEY` | — | Your MiniMax API key |
+| `MINIMAX_MODEL` | `MiniMax-M2.7` | Model: `MiniMax-M2.7`, `MiniMax-M2.7-highspeed`, `MiniMax-M2.5`, `MiniMax-M2.5-highspeed` |
+| `OPENAI_API_KEY` | — | Your OpenAI API key (when using the default provider) |
+
+**Using MiniMax:**
+
+```bash
+export LLM_PROVIDER=minimax
+export MINIMAX_API_KEY=your_api_key_here
+# Optional: choose a specific model
+export MINIMAX_MODEL=MiniMax-M2.7   # or MiniMax-M2.5-highspeed for faster inference
+
+python training.py configs/object/erase_ship.yaml
+```
+
+MiniMax's API is OpenAI-compatible (base URL `https://api.minimax.io/v1`), so the same `openai` Python SDK is reused — no extra dependencies needed.
+
 ## Data Preparation for Training MACE
 
 To erase concepts, 8 images along with their respective segmentation masks should be generated for each concept. To prepare the data for your intended concept, configure your settings in `configs/object/erase_ship.yaml` and execute the command:

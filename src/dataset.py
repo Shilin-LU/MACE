@@ -9,8 +9,36 @@ from openai import OpenAI
 import regex as re
 
 
+# Provider configuration via environment variables.
+# Set LLM_PROVIDER=minimax to use MiniMax instead of OpenAI.
+# MiniMax: set MINIMAX_API_KEY; model defaults to MiniMax-M2.7.
+# OpenAI: set OPENAI_API_KEY or configure BASE_URL / API_KEY below.
 BASE_URL = ''
 API_KEY = ''
+
+MINIMAX_BASE_URL = 'https://api.minimax.io/v1'
+MINIMAX_MODELS = ['MiniMax-M2.7', 'MiniMax-M2.7-highspeed', 'MiniMax-M2.5', 'MiniMax-M2.5-highspeed']
+
+def get_llm_client():
+    """Return (client, model_name, provider) based on LLM_PROVIDER environment variable."""
+    provider = os.environ.get('LLM_PROVIDER', 'openai').lower()
+    if provider == 'openai':
+        client = OpenAI(
+            base_url=BASE_URL or None,
+            api_key=API_KEY or os.environ.get('OPENAI_API_KEY', ''),
+        )
+        return client, 'gpt-3.5-turbo', provider
+    elif provider == 'minimax':
+        client = OpenAI(
+            base_url=MINIMAX_BASE_URL,
+            api_key=os.environ.get('MINIMAX_API_KEY', ''),
+        )
+        model = os.environ.get('MINIMAX_MODEL', 'MiniMax-M2.7')
+        return client, model, provider
+    else:
+        raise ValueError(
+            f"Unsupported LLM_PROVIDER '{provider}'. Choose from: ['openai', 'minimax']"
+        )
 
 
 def clean_prompt(class_prompt_collection):
@@ -24,12 +52,14 @@ def clean_prompt(class_prompt_collection):
 
 
 def text_augmentation(erased_concept, mapping_concept, concept_type, num_text_augmentations=100):
-    
-    client = OpenAI(
-        base_url=BASE_URL,
-        api_key=API_KEY,
-    )
-    
+
+    client, model, provider = get_llm_client()
+
+    # MiniMax requires temperature in (0.0, 1.0]; clamp if needed.
+    extra_kwargs = {}
+    if provider == 'minimax':
+        extra_kwargs['temperature'] = 0.7
+
     class_prompt_collection = []
 
     if concept_type == 'object':
@@ -37,11 +67,12 @@ def text_augmentation(erased_concept, mapping_concept, concept_type, num_text_au
             {"role": "system", "content": "You can describe any image via text and provide captions for wide variety of images that is possible to generate."},
             {"role": "user", "content": f"Generate {num_text_augmentations} captions for images containing {erased_concept}. The caption should also contain the word '{erased_concept}'. Please do not use any emojis in the captions."},
         ]
-        
+
         while True:
             completion = client.chat.completions.create(
-                model="gpt-3.5-turbo",
+                model=model,
                 messages=messages,
+                **extra_kwargs,
             )
             class_prompt_collection += [x for x in completion.choices[0].message.content.lower(
             ).split('\n') if erased_concept in x]

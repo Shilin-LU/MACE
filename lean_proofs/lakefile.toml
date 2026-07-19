@@ -1,0 +1,29 @@
+name = "mace"
+version = "0.1.0"
+keywords = ["math"]
+defaultTargets = ["Mace"]
+
+[leanOptions]
+pp.unicode.fun = true # pretty-prints `fun a ↦ b`
+relaxedAutoImplicit = false
+weak.linter.mathlibStandardSet = true
+maxSynthPendingDepth = 3
+
+[[require]]
+name = "mathlib"
+scope = "leanprover-community"
+rev = "v4.31.0"
+
+[[lean_lib]]
+name = "Mace"
+# Flat layout: every proof file sits directly in this folder, so the modules are
+# listed explicitly rather than globbed from a subdirectory. `Mace` is the umbrella
+# module that imports all the others.
+globs = [
+  "Mace",
+  "Basic",
+  "GramMatrix",
+  "ClosedForm",
+  "Instances",
+  "CFIS",
+]

@@ -4,17 +4,13 @@ import Mathlib.LinearAlgebra.Matrix.NonsingularInverse
 /-!
 # MACE closed-form cross-attention refinement — shared setup
 
-Machine-checked formalization of the mathematical content of
-
-> S. Lu, Z. Wang, L. Li, Y. Liu, A. W.-K. Kong, *MACE: Mass Concept Erasure in Diffusion Models*,
-> CVPR 2024, arXiv:2403.06135.
-
-See `catalog.json` in this folder for the full inventory. MACE's only self-contained provable
-mathematical content is one closed-form-solution derivation (paper Appendix A, "Closed-Form
-Solution Proof"): the minimizer of a regularized matrix least-squares objective, Eq. (1) → Eq. (2).
+Machine-checked formalization of the closed-form solution of MACE. See `catalog.json` in this
+folder for the full inventory. MACE's self-contained provable mathematical content is one
+closed-form-solution derivation (Appendix A, "Closed-Form Solution Proof"): the minimizer of a
+regularized matrix least-squares objective, Eq. (1) → Eq. (2).
 
 We abstract that objective to a single weighted least-squares problem and prove the closed form
-once, in general (`ClosedForm.lean`); the paper's Eq. (2) (refinement), Eq. (6) (fusion) and the
+once, in general (`ClosedForm.lean`); the paper's Eq. (2) (refinement), Eq. (7) (fusion) and the
 `λ₃` domain-specific variant are then instances of the same theorem (`Instances.lean`). The Gram
 matrix's positive (semi)definiteness — grounding the invertibility step — is `GramMatrix.lean`.
 

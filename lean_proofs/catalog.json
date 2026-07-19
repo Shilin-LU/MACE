@@ -128,7 +128,7 @@
     },
     {
       "id": "closed_form_fusion",
-      "label": "C3 / Eq. (6)",
+      "label": "C3 / Eq. (7)",
       "name": "Closed-form solution of the multi-LoRA fusion objective (instance of C1)",
       "type": "corollary / instance of C1 (paper: 'similar to Eq. 2, has a closed-form solution as well')",
       "paper": {
@@ -148,10 +148,10 @@
         "scope_note": "MACE is a framework paper. Its self-contained provable mathematical content is the closed-form solution derived in Appendix A (sec:proof). The attention-suppression loss (Eq. 3), the LoRA decomposition (Eq. 4), the CFIS sampling pdf (Eq. 5), and the naive weighted-sum fusion are definitions/design choices rather than theorems. Items C1-C4 cover that content; C3 and C4 are C1 re-instantiated; C5 is a minor derived property of the CFIS density."
       },
       "location": {
-        "statement": "Sec. 3.3 'Fusion of Multi-LoRA Modules', Eq. (6) (eq:close-form-fuse in method.tex)",
+        "statement": "Sec. 3.3 'Fusion of Multi-LoRA Modules', Eq. (7) (eq:close-form-fuse in method.tex). NOTE: in the published PDF this is Eq. (7); Eq. (6) is the naive weighted-sum fusion (W_hat_k = W_k' + sum omega_i Delta W_{k,i}, s.t. sum omega_i = 1), which is a baseline and is not formalized. The source-vs-rendered numbering was verified against the paper PDF.",
         "proof": "not derived in the paper -- asserted 'Similar to Eq. (2), this optimization problem has a closed-form solution as well.'",
         "eqs": [
-          "eq:close-form-fuse (6)"
+          "eq:close-form-fuse (7)"
         ]
       },
       "background_notation": {
@@ -202,10 +202,10 @@
         "scope_note": "MACE is a framework paper. Its self-contained provable mathematical content is the closed-form solution derived in Appendix A (sec:proof). The attention-suppression loss (Eq. 3), the LoRA decomposition (Eq. 4), the CFIS sampling pdf (Eq. 5), and the naive weighted-sum fusion are definitions/design choices rather than theorems. Items C1-C4 cover that content; C3 and C4 are C1 re-instantiated; C5 is a minor derived property of the CFIS density."
       },
       "location": {
-        "statement": "Appendix A, the reformulation with a lambda_3 domain-specific term (X_suppl.tex lines ~74-82, labeled eq:close-form-fuse in the appendix)",
+        "statement": "Appendix A, Eq. (19) (the lambda_3 domain-specific reformulation of Eq. (2); X_suppl.tex lines ~74-82, labeled eq:close-form-fuse in the source)",
         "proof": "obtained by the same derivation as C1 with a third weighted group",
         "eqs": [
-          "the 3-term W'_k = (... + lambda_1 sum ... + lambda_3 sum ...)(... )^{-1} display"
+          "Eq. (19): the 3-term W'_k = (... + lambda_1 sum ... + lambda_3 sum ...)(...)^{-1} display"
         ]
       },
       "background_notation": {
@@ -226,7 +226,7 @@
         "closed_form_refinement"
       ],
       "known_issues_in_paper": [
-        "The appendix reuses the label 'eq:close-form-fuse' for BOTH the fusion Eq. (6) in the main text and this lambda_3 variant -- a duplicate label, harmless. Recorded for fidelity.",
+        "The source reuses the label 'eq:close-form-fuse' for BOTH the fusion objective (rendered Eq. (7)) and this lambda_3 variant (rendered Eq. (19)) -- a duplicate LaTeX label, harmless to the rendered numbering. Recorded for fidelity.",
         "The lambda_3 summation index in the display runs i=n+m' .. n+m, overlapping the lambda_1 index at i=n+m' (an off-by-one in the summation bounds); the intended partition is m' general + (m-m') domain-specific terms. The formalization uses the intended disjoint partition."
       ],
       "formalization_notes": "Instances.lean: same as C3 with an extra weight group. No new mathematics."

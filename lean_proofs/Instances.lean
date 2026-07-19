@@ -10,10 +10,10 @@ realize the grouping with `Sum` types and show:
 
 * **Eq. (1) / Eq. (2)** (Section 3.1, refinement) — the two-group objective and its closed-form
   minimizer (`objective_twoGroup`, `closedForm_twoGroup`);
-* **Eq. (6)** (Section 3.3, LoRA fusion) — the paper states this "has a closed-form solution as
+* **Eq. (7)** (Section 3.3, LoRA fusion) — the paper states this "has a closed-form solution as
   well, similar to Eq. (2)". It is the same two-group statement with the mapping targets `bf`
   replaced by `(W'_k + ΔW_{k,i})·eⱼᶠ`; since `closedForm_twoGroup` takes the targets as arbitrary
-  data, Eq. (6) is literally an instance of it (C3);
+  data, Eq. (7) is literally an instance of it (C3);
 * the **domain-specific `λ₃` variant** (Appendix A) — three weighted groups
   (`closedForm_threeGroup`) (C4).
 
@@ -28,7 +28,7 @@ open scoped BigOperators
 
 variable {ιf ιp ιq : Type*} [Fintype ιf] [Fintype ιp] [Fintype ιq] {d₁ d₂ : ℕ}
 
-/-! ## Two groups — paper Eq. (1)/(2) (refinement) and Eq. (6) (fusion) -/
+/-! ## Two groups — paper Eq. (1)/(2) (refinement) and Eq. (7) (fusion) -/
 
 section twoGroup
 variable (af : ιf → Fin d₂ → ℝ) (bf : ιf → Fin d₁ → ℝ)
@@ -60,8 +60,8 @@ theorem cross_twoGroup :
   rw [cross, twoWeights, Fintype.sum_sum_type]
   simp only [Sum.elim_inl, Sum.elim_inr, one_smul, Finset.smul_sum]
 
-/-- **C1 specialized to Eq. (2), and C3 (Eq. (6) fusion).** With `λ ≥ 0` and the two-group Gram
-matrix invertible, `A·G⁻¹` minimizes the two-group objective — MACE's Eq. (2). The fusion Eq. (6)
+/-- **C1 specialized to Eq. (2), and C3 (Eq. (7) fusion).** With `λ ≥ 0` and the two-group Gram
+matrix invertible, `A·G⁻¹` minimizes the two-group objective — MACE's Eq. (2). The fusion Eq. (7)
 is the same statement with different mapping targets `bf`, hence an instance of this theorem. -/
 theorem closedForm_twoGroup (hlam : 0 ≤ lam)
     (hG : IsUnit (gram (Sum.elim af ap) (twoWeights lam)).det)

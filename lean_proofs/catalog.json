@@ -13,14 +13,14 @@
     "arxiv_id": "2403.06135",
     "arxiv_url": "https://arxiv.org/abs/2403.06135",
     "source_of_truth": "arXiv LaTeX e-print (arxiv.org/e-print/2403.06135); statements and proofs cataloged from sec/method.tex and sec/X_suppl.tex.",
-    "scope_note": "MACE is a framework paper. Its self-contained provable mathematical content is the closed-form solution derived in Appendix A (sec:proof). The attention-suppression loss (Eq. 3), the LoRA decomposition (Eq. 4), the CFIS sampling pdf (Eq. 5), and the naive weighted-sum fusion are definitions/design choices rather than theorems. Items C1-C4 cover that content; C3 and C4 are C1 re-instantiated; C5 is a minor derived property of the CFIS density."
+    "scope_note": "MACE is a framework paper. Its self-contained provable mathematical content is the closed-form solution derived in Appendix B (sec:proof). The attention-suppression loss (Eq. 3), the LoRA decomposition (Eq. 4), the CFIS sampling pdf (Eq. 5), and the naive weighted-sum fusion are definitions/design choices rather than theorems. Items C1-C4 cover that content; C3 and C4 are C1 re-instantiated; C5 is a minor derived property of the CFIS density."
   },
   "items": [
     {
       "id": "closed_form_refinement",
       "label": "C1 / Eq. (2)",
       "name": "Closed-form solution of the cross-attention refinement objective",
-      "type": "theorem (paper: 'closed-form solution', derived in Appendix A)",
+      "type": "theorem (paper: 'closed-form solution', derived in Appendix B)",
       "paper": {
         "title": "MACE: Mass Concept Erasure in Diffusion Models",
         "authors": [
@@ -35,11 +35,11 @@
         "arxiv_id": "2403.06135",
         "arxiv_url": "https://arxiv.org/abs/2403.06135",
         "source_of_truth": "arXiv LaTeX e-print (arxiv.org/e-print/2403.06135); statements and proofs cataloged from sec/method.tex and sec/X_suppl.tex.",
-        "scope_note": "MACE is a framework paper. Its self-contained provable mathematical content is the closed-form solution derived in Appendix A (sec:proof). The attention-suppression loss (Eq. 3), the LoRA decomposition (Eq. 4), the CFIS sampling pdf (Eq. 5), and the naive weighted-sum fusion are definitions/design choices rather than theorems. Items C1-C4 cover that content; C3 and C4 are C1 re-instantiated; C5 is a minor derived property of the CFIS density."
+        "scope_note": "MACE is a framework paper. Its self-contained provable mathematical content is the closed-form solution derived in Appendix B (sec:proof). The attention-suppression loss (Eq. 3), the LoRA decomposition (Eq. 4), the CFIS sampling pdf (Eq. 5), and the naive weighted-sum fusion are definitions/design choices rather than theorems. Items C1-C4 cover that content; C3 and C4 are C1 re-instantiated; C5 is a minor derived property of the CFIS density."
       },
       "location": {
         "statement": "Sec. 3.1 'Closed-Form Cross-Attention Refinement', Eq. (1) (objective, eq:close-form-loss) and Eq. (2) (solution, eq:close-form-solution)",
-        "proof": "Appendix A 'Closed-Form Solution Proof' (sec:proof), X_suppl.tex lines ~45-72",
+        "proof": "Appendix B 'Closed-Form Solution Proof' (sec:proof), X_suppl.tex lines ~45-72",
         "eqs": [
           "eq:close-form-loss (1)",
           "eq:close-form-solution (2)"
@@ -79,7 +79,7 @@
     },
     {
       "id": "gram_matrix_posdef",
-      "label": "C2 / Appendix A quadratic-form argument",
+      "label": "C2 / Appendix B quadratic-form argument",
       "name": "Gram matrix is positive semidefinite, and positive definite (invertible) under non-degeneracy",
       "type": "lemma (grounds the invertibility step of C1)",
       "paper": {
@@ -96,10 +96,10 @@
         "arxiv_id": "2403.06135",
         "arxiv_url": "https://arxiv.org/abs/2403.06135",
         "source_of_truth": "arXiv LaTeX e-print (arxiv.org/e-print/2403.06135); statements and proofs cataloged from sec/method.tex and sec/X_suppl.tex.",
-        "scope_note": "MACE is a framework paper. Its self-contained provable mathematical content is the closed-form solution derived in Appendix A (sec:proof). The attention-suppression loss (Eq. 3), the LoRA decomposition (Eq. 4), the CFIS sampling pdf (Eq. 5), and the naive weighted-sum fusion are definitions/design choices rather than theorems. Items C1-C4 cover that content; C3 and C4 are C1 re-instantiated; C5 is a minor derived property of the CFIS density."
+        "scope_note": "MACE is a framework paper. Its self-contained provable mathematical content is the closed-form solution derived in Appendix B (sec:proof). The attention-suppression loss (Eq. 3), the LoRA decomposition (Eq. 4), the CFIS sampling pdf (Eq. 5), and the naive weighted-sum fusion are definitions/design choices rather than theorems. Items C1-C4 cover that content; C3 and C4 are C1 re-instantiated; C5 is a minor derived property of the CFIS density."
       },
       "location": {
-        "statement": "Appendix A 'Closed-Form Solution Proof' (sec:proof), the paragraph 'To ensure the validity of the final step ... full rank' and the following quadratic-form display",
+        "statement": "Appendix B 'Closed-Form Solution Proof' (sec:proof), the paragraph 'To ensure the validity of the final step ... full rank' and the following quadratic-form display",
         "proof": "same, X_suppl.tex lines ~59-71",
         "eqs": [
           "the x^T G x = sum ||x^T e^f_i||^2 + lambda_1 sum ||x^T e^p_i||^2 >= 0 display"
@@ -145,7 +145,7 @@
         "arxiv_id": "2403.06135",
         "arxiv_url": "https://arxiv.org/abs/2403.06135",
         "source_of_truth": "arXiv LaTeX e-print (arxiv.org/e-print/2403.06135); statements and proofs cataloged from sec/method.tex and sec/X_suppl.tex.",
-        "scope_note": "MACE is a framework paper. Its self-contained provable mathematical content is the closed-form solution derived in Appendix A (sec:proof). The attention-suppression loss (Eq. 3), the LoRA decomposition (Eq. 4), the CFIS sampling pdf (Eq. 5), and the naive weighted-sum fusion are definitions/design choices rather than theorems. Items C1-C4 cover that content; C3 and C4 are C1 re-instantiated; C5 is a minor derived property of the CFIS density."
+        "scope_note": "MACE is a framework paper. Its self-contained provable mathematical content is the closed-form solution derived in Appendix B (sec:proof). The attention-suppression loss (Eq. 3), the LoRA decomposition (Eq. 4), the CFIS sampling pdf (Eq. 5), and the naive weighted-sum fusion are definitions/design choices rather than theorems. Items C1-C4 cover that content; C3 and C4 are C1 re-instantiated; C5 is a minor derived property of the CFIS density."
       },
       "location": {
         "statement": "Sec. 3.3 'Fusion of Multi-LoRA Modules', Eq. (7) (eq:close-form-fuse in method.tex). NOTE: in the published PDF this is Eq. (7); Eq. (6) is the naive weighted-sum fusion (W_hat_k = W_k' + sum omega_i Delta W_{k,i}, s.t. sum omega_i = 1), which is a baseline and is not formalized. The source-vs-rendered numbering was verified against the paper PDF.",
@@ -182,7 +182,7 @@
     },
     {
       "id": "closed_form_domain_specific",
-      "label": "C4 / Appendix A lambda_3 variant",
+      "label": "C4 / Appendix B lambda_3 variant",
       "name": "Domain-specific-knowledge (3 weight-group) variant of Eq. (2) (instance of C1)",
       "type": "corollary / instance of C1",
       "paper": {
@@ -199,10 +199,10 @@
         "arxiv_id": "2403.06135",
         "arxiv_url": "https://arxiv.org/abs/2403.06135",
         "source_of_truth": "arXiv LaTeX e-print (arxiv.org/e-print/2403.06135); statements and proofs cataloged from sec/method.tex and sec/X_suppl.tex.",
-        "scope_note": "MACE is a framework paper. Its self-contained provable mathematical content is the closed-form solution derived in Appendix A (sec:proof). The attention-suppression loss (Eq. 3), the LoRA decomposition (Eq. 4), the CFIS sampling pdf (Eq. 5), and the naive weighted-sum fusion are definitions/design choices rather than theorems. Items C1-C4 cover that content; C3 and C4 are C1 re-instantiated; C5 is a minor derived property of the CFIS density."
+        "scope_note": "MACE is a framework paper. Its self-contained provable mathematical content is the closed-form solution derived in Appendix B (sec:proof). The attention-suppression loss (Eq. 3), the LoRA decomposition (Eq. 4), the CFIS sampling pdf (Eq. 5), and the naive weighted-sum fusion are definitions/design choices rather than theorems. Items C1-C4 cover that content; C3 and C4 are C1 re-instantiated; C5 is a minor derived property of the CFIS density."
       },
       "location": {
-        "statement": "Appendix A, Eq. (19) (the lambda_3 domain-specific reformulation of Eq. (2); X_suppl.tex lines ~74-82, labeled eq:close-form-fuse in the source)",
+        "statement": "Appendix B, Eq. (19) (the lambda_3 domain-specific reformulation of Eq. (2); X_suppl.tex lines ~74-82, labeled eq:close-form-fuse in the source)",
         "proof": "obtained by the same derivation as C1 with a third weighted group",
         "eqs": [
           "Eq. (19): the 3-term W'_k = (... + lambda_1 sum ... + lambda_3 sum ...)(...)^{-1} display"
@@ -234,7 +234,7 @@
     {
       "id": "cfis_density_nonneg",
       "label": "C5 / Eq. (5)",
-      "name": "The CFIS sampling density is non-negative and a valid probability density",
+      "name": "The CFIS sampling density is non-negative (non-negativity is the part formalized; integration-to-one is not)",
       "type": "minor derivable property (the paper defines xi(t) but states no theorem about it)",
       "paper": {
         "title": "MACE: Mass Concept Erasure in Diffusion Models",
@@ -250,10 +250,10 @@
         "arxiv_id": "2403.06135",
         "arxiv_url": "https://arxiv.org/abs/2403.06135",
         "source_of_truth": "arXiv LaTeX e-print (arxiv.org/e-print/2403.06135); statements and proofs cataloged from sec/method.tex and sec/X_suppl.tex.",
-        "scope_note": "MACE is a framework paper. Its self-contained provable mathematical content is the closed-form solution derived in Appendix A (sec:proof). The attention-suppression loss (Eq. 3), the LoRA decomposition (Eq. 4), the CFIS sampling pdf (Eq. 5), and the naive weighted-sum fusion are definitions/design choices rather than theorems. Items C1-C4 cover that content; C3 and C4 are C1 re-instantiated; C5 is a minor derived property of the CFIS density."
+        "scope_note": "MACE is a framework paper. Its self-contained provable mathematical content is the closed-form solution derived in Appendix B (sec:proof). The attention-suppression loss (Eq. 3), the LoRA decomposition (Eq. 4), the CFIS sampling pdf (Eq. 5), and the naive weighted-sum fusion are definitions/design choices rather than theorems. Items C1-C4 cover that content; C3 and C4 are C1 re-instantiated; C5 is a minor derived property of the CFIS density."
       },
       "location": {
-        "statement": "Sec. 3.2 'Concept-focal importance sampling', Eq. (5) (eq:sampling); restated in Appendix C (sec:CFIS_pdf)",
+        "statement": "Sec. 3.2 'Concept-focal importance sampling', Eq. (5) (eq:sampling); the density's graph is provided in Appendix E 'Concept-Focal Importance Sampling' (sec:CFIS_pdf)",
         "proof": "not stated in the paper (xi is defined, not proved to be a density)",
         "eqs": [
           "eq:sampling (5)"

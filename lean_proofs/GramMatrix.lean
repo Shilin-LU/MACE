@@ -4,7 +4,7 @@ import Basic
 # MACE — the Gram matrix is positive (semi)definite and invertible (catalog item C2)
 
 Grounds the invertibility step of the closed-form solution (`ClosedForm.lean`). This is the
-argument in MACE's Appendix A: for any `x`,
+argument in MACE's Appendix B: for any `x`,
 `xᵀ G x = ∑ᵢ cᵢ (x · aᵢ)² ≥ 0`, so the Gram matrix `G = ∑ᵢ cᵢ aᵢ aᵢᵀ` is positive semidefinite;
 and it is positive definite (hence invertible) exactly when no nonzero `x` is orthogonal to every
 `aᵢ` carrying positive weight — the precise sufficient condition behind the paper's informal "it is

@@ -4,7 +4,7 @@ import Mathlib.Analysis.SpecialFunctions.Exp
 # MACE — the concept-focal importance sampling (CFIS) density is non-negative (catalog item C5)
 
 A minor, self-contained property of the timestep sampling density MACE uses when training the LoRA
-modules (Section 3.2, Eq. (5); Appendix C):
+modules (Section 3.2, Eq. (5); Appendix E):
 `ξ(t) = (σ(γ(t − t₁)) − σ(γ(t − t₂))) / Z`, with `σ` the logistic sigmoid, `t₁ < t₂`, `γ > 0`,
 `Z > 0`. The paper defines `ξ` as a design choice and does not prove it is a density; here we record
 that it is non-negative, which follows immediately from the monotonicity of `σ` and `t₁ < t₂`.

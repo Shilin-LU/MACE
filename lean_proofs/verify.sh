@@ -32,7 +32,7 @@ HEADLINES=(
   Mace.gram_posSemidef            # C2  — Gram matrix positive semidefinite
   Mace.gram_posDef                # C2  — Gram matrix positive definite under non-degeneracy
   Mace.gram_isUnit_det            # C2  — hence invertible
-  Mace.closedForm_twoGroup        # C3  — Eq. 2 refinement / Eq. 6 fusion instance
+  Mace.closedForm_twoGroup        # C3  — Eq. 2 refinement / Eq. 7 fusion instance
   Mace.closedForm_threeGroup      # C4  — domain-specific λ₃ variant instance
   Mace.cfisDensity_nonneg         # C5  — CFIS density non-negative
 )
@@ -40,8 +40,21 @@ HEADLINES=(
 OUT=$(lake env lean _axioms_check.lean 2>&1)
 rm -f _axioms_check.lean
 echo "$OUT"
-# Any axiom line that is NOT the three standard classical axioms is a failure.
+# Enforce EXACTLY the three standard classical axioms (not just "no sorryAx").
+# 1. no sorryAx / no compile error;
+# 2. every axiom token printed inside a [...] list is one of the three allowed;
+# 3. one report line per headline (guards against a typo'd/renamed decl silently reporting nothing).
+BAD=$(echo "$OUT" | grep -oE '\[[^]]*\]' | tr -d '[]' | tr ',' '\n' \
+      | sed 's/^[[:space:]]*//; s/[[:space:]]*$//' | grep -v '^$' \
+      | grep -vxE 'propext|Classical\.choice|Quot\.sound' || true)
+NREPORT=$(echo "$OUT" | grep -cE "^'Mace\.")
 if echo "$OUT" | grep -qiE 'sorryAx|error'; then
-  echo "FAIL: non-clean axioms or error"; exit 1
+  echo "FAIL: sorryAx or error in axiom output"; exit 1
+fi
+if [ -n "$BAD" ]; then
+  echo "FAIL: non-standard axiom(s) present:"; echo "$BAD"; exit 1
+fi
+if [ "$NREPORT" -ne "${#HEADLINES[@]}" ]; then
+  echo "FAIL: expected ${#HEADLINES[@]} '#print axioms' report lines, got $NREPORT"; exit 1
 fi
 echo "=== ALL CHECKS PASSED ==="

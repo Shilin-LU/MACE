@@ -14,7 +14,7 @@ realize the grouping with `Sum` types and show:
   well, similar to Eq. (2)". It is the same two-group statement with the mapping targets `bf`
   replaced by `(W'_k + ΔW_{k,i})·eⱼᶠ`; since `closedForm_twoGroup` takes the targets as arbitrary
   data, Eq. (7) is literally an instance of it (C3);
-* the **domain-specific `λ₃` variant** (Appendix A) — three weighted groups
+* the **domain-specific `λ₃` variant** (Appendix B) — three weighted groups
   (`closedForm_threeGroup`) (C4).
 
 The Gram/cross split lemmas confirm these specializations reproduce the paper's own two- and
@@ -75,7 +75,7 @@ theorem closedForm_twoGroup (hlam : 0 ≤ lam)
 
 end twoGroup
 
-/-! ## Three groups — paper's domain-specific `λ₃` variant (Appendix A) -/
+/-! ## Three groups — paper's domain-specific `λ₃` variant (Appendix B) -/
 
 section threeGroup
 variable (af : ιf → Fin d₂ → ℝ) (bf : ιf → Fin d₁ → ℝ)

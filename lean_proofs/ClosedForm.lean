@@ -4,7 +4,7 @@ import GramMatrix
 /-!
 # MACE — closed-form solution of the least-squares refinement objective (catalog item C1)
 
-The mathematical heart of MACE (Appendix A, "Closed-Form Solution Proof"): the regularized matrix
+The mathematical heart of MACE (Appendix B, "Closed-Form Solution Proof"): the regularized matrix
 least-squares objective `L(W) = ∑ᵢ cᵢ ‖W·aᵢ − bᵢ‖²` is minimized by `W = A·G⁻¹`, where
 `G = ∑ᵢ cᵢ aᵢ aᵢᵀ` (the Gram matrix) and `A = ∑ᵢ cᵢ bᵢ aᵢᵀ` — the normal-equation /
 ridge-regression / linear-associative-memory closed form (paper Eq. (1) → Eq. (2)).

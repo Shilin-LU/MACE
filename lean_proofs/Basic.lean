@@ -6,7 +6,7 @@ import Mathlib.LinearAlgebra.Matrix.NonsingularInverse
 
 Machine-checked formalization of the closed-form solution of MACE. See `catalog.json` in this
 folder for the full inventory. MACE's self-contained provable mathematical content is one
-closed-form-solution derivation (Appendix A, "Closed-Form Solution Proof"): the minimizer of a
+closed-form-solution derivation (Appendix B, "Closed-Form Solution Proof"): the minimizer of a
 regularized matrix least-squares objective, Eq. (1) → Eq. (2).
 
 We abstract that objective to a single weighted least-squares problem and prove the closed form

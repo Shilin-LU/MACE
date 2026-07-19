@@ -1,6 +1,6 @@
 # Lean 4 / Mathlib formalization of MACE's closed-form solution
 
-Machine-checked (Lean 4 + [Mathlib](https://github.com/leanprover-community/mathlib4)) proofs of the mathematical results of MACE: the closed-form cross-attention refinement solution (Eq. (2), derived in Appendix A), its multi-LoRA fusion analogue (Eq. (7)) and domain-specific variant (Eq. (19)), and the non-negativity of the concept-focal importance sampling density (Eq. (5)).
+Machine-checked (Lean 4 + [Mathlib](https://github.com/leanprover-community/mathlib4)) proofs of the mathematical results of MACE: the closed-form cross-attention refinement solution (Eq. (2), derived in Appendix B), its multi-LoRA fusion analogue (Eq. (7)) and domain-specific variant (Eq. (19)), and the non-negativity of the concept-focal importance sampling density (Eq. (5)).
 
 Everything builds with zero `sorry`, and `#print axioms` reports only the standard classical axioms (`propext`, `Classical.choice`, `Quot.sound`) for every result. The files are:
 
@@ -30,7 +30,7 @@ with Gram matrix $G = \sum_i c_i a_i a_i^\top$ and cross matrix $A = \sum_i c_i 
 
 - **`Basic.lean`** — the objective $L$, the Gram matrix $G$, and the cross matrix $A$, with the entrywise identities used downstream.
 
-- **`GramMatrix.lean`** — the quadratic-form identity $x^\top G x = \sum_i c_i (x \cdot a_i)^2$ (Eq. (18)), from which $G$ is positive semidefinite (weights $c_i \ge 0$), and positive definite — so $\det G$ is a unit and $G$ is invertible — under the condition that no nonzero $x$ is orthogonal to every $a_i$ carrying positive weight. This is the precise sufficient condition for the full-rank step in Appendix A.
+- **`GramMatrix.lean`** — the quadratic-form identity $x^\top G x = \sum_i c_i (x \cdot a_i)^2$ (Eq. (18)), from which $G$ is positive semidefinite (weights $c_i \ge 0$), and positive definite — so $\det G$ is a unit and $G$ is invertible — under the condition that no nonzero $x$ is orthogonal to every $a_i$ carrying positive weight. This is the precise sufficient condition for the full-rank step in Appendix B.
 
 - **`ClosedForm.lean`** — the closed-form solution. The paper obtains the normal equations $W'_k G = A$ (Eq. (14)) by setting the matrix derivative of $\mathcal{L}$ to zero and then right-multiplies by $G^{-1}$ (Eqs. (12)–(16)). The formalization proves the equivalent completed-square identity: for any $W$ and any $W'$ with $W' G = A$,
 

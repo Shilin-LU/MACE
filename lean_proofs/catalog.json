@@ -1,0 +1,287 @@
+{
+  "_meta": {
+    "title": "MACE: Mass Concept Erasure in Diffusion Models",
+    "authors": [
+      "Shilin Lu",
+      "Zilan Wang",
+      "Leyang Li",
+      "Yanzhu Liu",
+      "Adams Wai-Kin Kong"
+    ],
+    "affiliation": "Nanyang Technological University; A*STAR, Singapore",
+    "venue": "CVPR 2024",
+    "arxiv_id": "2403.06135",
+    "arxiv_url": "https://arxiv.org/abs/2403.06135",
+    "source_of_truth": "arXiv LaTeX e-print (arxiv.org/e-print/2403.06135); statements and proofs cataloged from sec/method.tex and sec/X_suppl.tex.",
+    "scope_note": "MACE is a framework paper. Its self-contained provable mathematical content is the closed-form solution derived in Appendix B (sec:proof). The attention-suppression loss (Eq. 3), the LoRA decomposition (Eq. 4), the CFIS sampling pdf (Eq. 5), and the naive weighted-sum fusion are definitions/design choices rather than theorems. Items C1-C4 cover that content; C3 and C4 are C1 re-instantiated; C5 is a minor derived property of the CFIS density."
+  },
+  "items": [
+    {
+      "id": "closed_form_refinement",
+      "label": "C1 / Eq. (2)",
+      "name": "Closed-form solution of the cross-attention refinement objective",
+      "type": "theorem (paper: 'closed-form solution', derived in Appendix B)",
+      "paper": {
+        "title": "MACE: Mass Concept Erasure in Diffusion Models",
+        "authors": [
+          "Shilin Lu",
+          "Zilan Wang",
+          "Leyang Li",
+          "Yanzhu Liu",
+          "Adams Wai-Kin Kong"
+        ],
+        "affiliation": "Nanyang Technological University; A*STAR, Singapore",
+        "venue": "CVPR 2024",
+        "arxiv_id": "2403.06135",
+        "arxiv_url": "https://arxiv.org/abs/2403.06135",
+        "source_of_truth": "arXiv LaTeX e-print (arxiv.org/e-print/2403.06135); statements and proofs cataloged from sec/method.tex and sec/X_suppl.tex.",
+        "scope_note": "MACE is a framework paper. Its self-contained provable mathematical content is the closed-form solution derived in Appendix B (sec:proof). The attention-suppression loss (Eq. 3), the LoRA decomposition (Eq. 4), the CFIS sampling pdf (Eq. 5), and the naive weighted-sum fusion are definitions/design choices rather than theorems. Items C1-C4 cover that content; C3 and C4 are C1 re-instantiated; C5 is a minor derived property of the CFIS density."
+      },
+      "location": {
+        "statement": "Sec. 3.1 'Closed-Form Cross-Attention Refinement', Eq. (1) (objective, eq:close-form-loss) and Eq. (2) (solution, eq:close-form-solution)",
+        "proof": "Appendix B 'Closed-Form Solution Proof' (sec:proof), X_suppl.tex lines ~45-72",
+        "eqs": [
+          "eq:close-form-loss (1)",
+          "eq:close-form-solution (2)"
+        ]
+      },
+      "background_notation": {
+        "W_k": "pretrained cross-attention Key (or Value) projection matrix, in R^{d1 x d2}",
+        "W'_k": "the refined projection matrix being solved for, in R^{d1 x d2}",
+        "e^f_i": "embedding (in R^{d2}) of a word co-existing with the target phrase (i=1..n, 'mapping' terms)",
+        "e^g_i": "embedding of that same word when the target phrase is replaced by its super-category / a generic concept",
+        "e^p_i": "prior-preserving embedding (i=n+1..n+m, 'preserving' terms), by default computed on MS-COCO",
+        "lambda_1": "positive regularization hyperparameter weighting the prior-preservation terms",
+        "n, m": "number of mapping and preserving embeddings, respectively"
+      },
+      "hypotheses": [
+        "lambda_1 in R^+ (positive).",
+        "The symmetric matrix G := sum_{i=1}^n e^f_i (e^f_i)^T + lambda_1 sum_{i=n+1}^{n+m} e^p_i (e^p_i)^T is invertible (the paper argues it is 'in general' positive definite; see C2)."
+      ],
+      "statement_informal": "The regularized least-squares objective L(W'_k) = sum_i ||W'_k e^f_i - W_k e^g_i||^2 + lambda_1 sum_i ||W'_k e^p_i - W_k e^p_i||^2 is minimized by W'_k = (sum W_k e^g_i (e^f_i)^T + lambda_1 sum W_k e^p_i (e^p_i)^T) (sum e^f_i (e^f_i)^T + lambda_1 sum e^p_i (e^p_i)^T)^{-1}, i.e. the ridge-regression / linear-associative-memory normal-equation solution, provided the Gram matrix G is invertible.",
+      "statement_formal": "Minimize over W'_k in R^{d1 x d2}:  L(W'_k) = sum_{i=1}^n ||W'_k e^f_i - W_k e^g_i||_2^2 + lambda_1 sum_{i=n+1}^{n+m} ||W'_k e^p_i - W_k e^p_i||_2^2.  With A := sum_{i=1}^n W_k e^g_i (e^f_i)^T + lambda_1 sum_{i=n+1}^{n+m} W_k e^p_i (e^p_i)^T and G := sum_{i=1}^n e^f_i (e^f_i)^T + lambda_1 sum_{i=n+1}^{n+m} e^p_i (e^p_i)^T, the unique minimizer (G invertible) is W'_k = A G^{-1}.",
+      "proof_as_in_paper": "Differentiate L w.r.t. W'_k and set to zero:\n  dL/dW'_k = 2 sum_{i=1}^n (W'_k e^f_i - W_k e^g_i)(e^f_i)^T + 2 lambda_1 sum_{i=n+1}^{n+m} (W'_k e^p_i - W_k e^p_i)(e^p_i)^T = 0.\nRearranging the mapping/preserving terms:\n  sum W'_k e^f_i (e^f_i)^T + lambda_1 sum W'_k e^p_i (e^p_i)^T = sum W_k e^g_i (e^f_i)^T + lambda_1 sum W_k e^p_i (e^p_i)^T,\ni.e. W'_k ( sum e^f_i (e^f_i)^T + lambda_1 sum e^p_i (e^p_i)^T ) = sum W_k e^g_i (e^f_i)^T + lambda_1 sum W_k e^p_i (e^p_i)^T. Right-multiplying by the inverse of the (symmetric, full-rank) Gram matrix gives W'_k = A G^{-1}. The paper then argues G is invertible (see C2). The same derivation applies to W'_v.",
+      "proof_technique": "Paper: set the matrix derivative to zero -> normal equations -> right-multiply by G^{-1}. Formalization: complete the square -- prove L(W) = L(W*) + sum_i c_i ||(W-W*) a_i||^2 whenever W* G = A, which gives a global (and, under G positive definite, unique) minimizer directly and supplies the global minimality that the derivative-zero step leaves implicit.",
+      "proof_completeness": "self-contained (given C2's invertibility); the minimality (vs. mere stationarity) is left implicit in the paper and made explicit in the formalization.",
+      "external_dependencies": [
+        "Matrix calculus identity d/dW ||W a - b||^2 = 2 (W a - b) a^T (the paper uses this without citation; the formalization avoids it entirely via completing the square).",
+        "Linear-associative-memory / knowledge-editing framing (anderson1972simple, kohonen2012associative, meng2022mass, gandikota2023unified) -- conceptual, not a mathematical dependency."
+      ],
+      "depends_on": [
+        "gram_matrix_posdef"
+      ],
+      "known_issues_in_paper": [
+        "The paper writes W_k in R^{d1 x d2} acting on embeddings e in R^{d2}, i.e. W_k e in R^{d1}; the appendix says 'e^f_i in R^{d2}'. Consistent, no issue -- recorded only to pin the dimensions (main text writes W'_k in R^{d_in x d_out}, appendix d1 x d2; these are the same object).",
+        "The paper only sets the derivative to zero; it does not separately verify the stationary point is the global minimum (true here by convexity of the quadratic, but not argued). The formalization supplies this.",
+        "Invertibility of G is argued informally ('highly improbable all terms vanish ... in general positive definite'); the precise sufficient condition is captured in C2 as an explicit non-degeneracy hypothesis."
+      ],
+      "formalization_notes": "Prove ONE general weighted-least-squares closed form over an arbitrary finite index set with per-term weights c_i >= 0, inputs a_i in R^{d2}, targets b_i in R^{d1}. Complete-the-square identity uses only mulVec expansion + Finset.sum swaps + the componentwise normal equations (W* G = A  <->  forall r k, sum_i c_i ((W* a_i)_r - (b_i)_r)(a_i)_k = 0); no matrix-trace machinery. The closed form A G^{-1} satisfies W* G = A via Matrix.nonsing_inv_mul (needs IsUnit G.det, supplied by C2). C3 and C4 are this same theorem re-instantiated."
+    },
+    {
+      "id": "gram_matrix_posdef",
+      "label": "C2 / Appendix B quadratic-form argument",
+      "name": "Gram matrix is positive semidefinite, and positive definite (invertible) under non-degeneracy",
+      "type": "lemma (grounds the invertibility step of C1)",
+      "paper": {
+        "title": "MACE: Mass Concept Erasure in Diffusion Models",
+        "authors": [
+          "Shilin Lu",
+          "Zilan Wang",
+          "Leyang Li",
+          "Yanzhu Liu",
+          "Adams Wai-Kin Kong"
+        ],
+        "affiliation": "Nanyang Technological University; A*STAR, Singapore",
+        "venue": "CVPR 2024",
+        "arxiv_id": "2403.06135",
+        "arxiv_url": "https://arxiv.org/abs/2403.06135",
+        "source_of_truth": "arXiv LaTeX e-print (arxiv.org/e-print/2403.06135); statements and proofs cataloged from sec/method.tex and sec/X_suppl.tex.",
+        "scope_note": "MACE is a framework paper. Its self-contained provable mathematical content is the closed-form solution derived in Appendix B (sec:proof). The attention-suppression loss (Eq. 3), the LoRA decomposition (Eq. 4), the CFIS sampling pdf (Eq. 5), and the naive weighted-sum fusion are definitions/design choices rather than theorems. Items C1-C4 cover that content; C3 and C4 are C1 re-instantiated; C5 is a minor derived property of the CFIS density."
+      },
+      "location": {
+        "statement": "Appendix B 'Closed-Form Solution Proof' (sec:proof), the paragraph 'To ensure the validity of the final step ... full rank' and the following quadratic-form display",
+        "proof": "same, X_suppl.tex lines ~59-71",
+        "eqs": [
+          "the x^T G x = sum ||x^T e^f_i||^2 + lambda_1 sum ||x^T e^p_i||^2 >= 0 display"
+        ]
+      },
+      "background_notation": {
+        "G": "the symmetric d2 x d2 Gram matrix sum e^f_i (e^f_i)^T + lambda_1 sum e^p_i (e^p_i)^T",
+        "x": "an arbitrary vector in R^{d2}"
+      },
+      "hypotheses": [
+        "lambda_1 >= 0 (positive in the paper; >= 0 suffices for PSD).",
+        "For positive definiteness: no nonzero x in R^{d2} is orthogonal to every e^f_i and every e^p_i with positive weight (i.e. the weighted embeddings span R^{d2}). The paper states this as 'highly improbable all terms vanish -> in general positive definite'."
+      ],
+      "statement_informal": "For any x, x^T G x = sum_i ||x^T e^f_i||^2 + lambda_1 sum_i ||x^T e^p_i||^2 >= 0, so G is positive semidefinite; and G is positive definite (hence invertible) exactly when the embeddings span R^{d2} (no nonzero x is orthogonal to all of them).",
+      "statement_formal": "G := sum_{i=1}^n e^f_i (e^f_i)^T + lambda_1 sum_{i=n+1}^{n+m} e^p_i (e^p_i)^T is symmetric and satisfies x^T G x = sum_i (x . e^f_i)^2 + lambda_1 sum_i (x . e^p_i)^2 >= 0 for all x (PosSemidef). If additionally, for every x != 0, some e with positive weight has x . e != 0, then x^T G x > 0 for x != 0 (PosDef), so det G > 0 and G is invertible.",
+      "proof_as_in_paper": "For any nonzero x: x^T ( sum e^f_i (e^f_i)^T + lambda_1 sum e^p_i (e^p_i)^T ) x = sum (x^T e^f_i)(x^T e^f_i)^T + lambda_1 sum (x^T e^p_i)(x^T e^p_i)^T = sum ||x^T e^f_i||^2 + lambda_1 sum ||x^T e^p_i||^2 >= 0. Because e^p_i are computed over the large MS-COCO dataset, it is highly improbable that all terms ||x^T e^p_i||^2 vanish simultaneously, so in general the quadratic form is strictly positive for x != 0, i.e. G is positive definite and thus invertible.",
+      "proof_technique": "Expand the quadratic form of a sum of weighted rank-1 outer products into a nonnegative-weighted sum of squared inner products; strict positivity <-> spanning (non-degeneracy) condition.",
+      "proof_completeness": "self-contained for PSD; the PD/invertibility step replaces the paper's probabilistic 'highly improbable' phrasing with an explicit, sharp non-degeneracy hypothesis.",
+      "external_dependencies": [],
+      "depends_on": [],
+      "known_issues_in_paper": [
+        "The paper's ||x^T e^p_i||^2 notation treats the scalar x^T e^p_i as a norm; harmless (||scalar||^2 = scalar^2). Recorded for fidelity.",
+        "The invertibility argument is probabilistic/informal ('highly improbable ... in general positive definite'), not a proof of a stated sufficient condition. The formalization states the exact sufficient condition (spanning) as a hypothesis and proves PD under it."
+      ],
+      "formalization_notes": "Matrix.PosSemidef via the definition (Hermitian over R = symmetric, plus 0 <= x^T G x); each e e^T = Matrix.vecMulVec e e is symmetric and contributes c_i (e . x)^2 >= 0. PosDef under the spanning hypothesis; PosDef -> det > 0 (Matrix.PosDef.det_pos) -> IsUnit det -> invertible, which is exactly what C1's closed form consumes."
+    },
+    {
+      "id": "closed_form_fusion",
+      "label": "C3 / Eq. (7)",
+      "name": "Closed-form solution of the multi-LoRA fusion objective (instance of C1)",
+      "type": "corollary / instance of C1 (paper: 'similar to Eq. 2, has a closed-form solution as well')",
+      "paper": {
+        "title": "MACE: Mass Concept Erasure in Diffusion Models",
+        "authors": [
+          "Shilin Lu",
+          "Zilan Wang",
+          "Leyang Li",
+          "Yanzhu Liu",
+          "Adams Wai-Kin Kong"
+        ],
+        "affiliation": "Nanyang Technological University; A*STAR, Singapore",
+        "venue": "CVPR 2024",
+        "arxiv_id": "2403.06135",
+        "arxiv_url": "https://arxiv.org/abs/2403.06135",
+        "source_of_truth": "arXiv LaTeX e-print (arxiv.org/e-print/2403.06135); statements and proofs cataloged from sec/method.tex and sec/X_suppl.tex.",
+        "scope_note": "MACE is a framework paper. Its self-contained provable mathematical content is the closed-form solution derived in Appendix B (sec:proof). The attention-suppression loss (Eq. 3), the LoRA decomposition (Eq. 4), the CFIS sampling pdf (Eq. 5), and the naive weighted-sum fusion are definitions/design choices rather than theorems. Items C1-C4 cover that content; C3 and C4 are C1 re-instantiated; C5 is a minor derived property of the CFIS density."
+      },
+      "location": {
+        "statement": "Sec. 3.3 'Fusion of Multi-LoRA Modules', Eq. (7) (eq:close-form-fuse in method.tex). NOTE: in the published PDF this is Eq. (7); Eq. (6) is the naive weighted-sum fusion (W_hat_k = W_k' + sum omega_i Delta W_{k,i}, s.t. sum omega_i = 1), which is a baseline and is not formalized. The source-vs-rendered numbering was verified against the paper PDF.",
+        "proof": "not derived in the paper -- asserted 'Similar to Eq. (2), this optimization problem has a closed-form solution as well.'",
+        "eqs": [
+          "eq:close-form-fuse (7)"
+        ]
+      },
+      "background_notation": {
+        "W_k^*": "the fused projection matrix being solved for",
+        "W'_k": "the closed-form refined weight from Sec. 3.1",
+        "Delta W_{k,i}": "the LoRA modulation for the i-th erased concept",
+        "e^f_j": "embedding of a word co-existing with a target phrase (j=1..p, mapping terms)",
+        "e^p_j": "prior-preserving embedding (j=p+1..p+m)",
+        "q, p, m, lambda_2": "number of concepts; number of mapping and preserving embeddings; positive hyperparameter"
+      },
+      "hypotheses": [
+        "lambda_2 in R^+.",
+        "The corresponding Gram matrix is invertible (same as C2)."
+      ],
+      "statement_informal": "Minimizing sum_{i=1}^q sum_{j=1}^p ||W_k^* e^f_j - (W'_k + Delta W_{k,i}) e^f_j||^2 + lambda_2 sum_j ||W_k^* e^p_j - W_k e^p_j||^2 has the same normal-equation closed form as C1, with targets b = (W'_k + Delta W_{k,i}) e^f_j for the mapping terms and W_k e^p_j for the preserving terms.",
+      "statement_formal": "This is C1's general theorem instantiated with index set {(i,j)} for mapping terms and {j} for preserving terms; inputs a = e^f_j / e^p_j, targets b = (W'_k+Delta W_{k,i}) e^f_j / W_k e^p_j, weights 1 / lambda_2. The minimizer is (sum b a^T)(sum a a^T)^{-1}, the analog of Eq. (2).",
+      "proof_as_in_paper": "Asserted by analogy to Eq. (2); no separate derivation given.",
+      "proof_technique": "Direct instantiation of C1 (the general weighted-least-squares closed form).",
+      "proof_completeness": "follows immediately from C1 once stated as an instance -- this is the point of proving C1 generally.",
+      "external_dependencies": [],
+      "depends_on": [
+        "closed_form_refinement"
+      ],
+      "known_issues_in_paper": [
+        "The paper only says 'this has a closed-form solution as well' without writing it out; the formalization makes the instance explicit and derives it from C1."
+      ],
+      "formalization_notes": "In Instances.lean, choose the index set / a / b / c and apply C1's closed-form theorem. No new mathematics."
+    },
+    {
+      "id": "closed_form_domain_specific",
+      "label": "C4 / Appendix B lambda_3 variant",
+      "name": "Domain-specific-knowledge (3 weight-group) variant of Eq. (2) (instance of C1)",
+      "type": "corollary / instance of C1",
+      "paper": {
+        "title": "MACE: Mass Concept Erasure in Diffusion Models",
+        "authors": [
+          "Shilin Lu",
+          "Zilan Wang",
+          "Leyang Li",
+          "Yanzhu Liu",
+          "Adams Wai-Kin Kong"
+        ],
+        "affiliation": "Nanyang Technological University; A*STAR, Singapore",
+        "venue": "CVPR 2024",
+        "arxiv_id": "2403.06135",
+        "arxiv_url": "https://arxiv.org/abs/2403.06135",
+        "source_of_truth": "arXiv LaTeX e-print (arxiv.org/e-print/2403.06135); statements and proofs cataloged from sec/method.tex and sec/X_suppl.tex.",
+        "scope_note": "MACE is a framework paper. Its self-contained provable mathematical content is the closed-form solution derived in Appendix B (sec:proof). The attention-suppression loss (Eq. 3), the LoRA decomposition (Eq. 4), the CFIS sampling pdf (Eq. 5), and the naive weighted-sum fusion are definitions/design choices rather than theorems. Items C1-C4 cover that content; C3 and C4 are C1 re-instantiated; C5 is a minor derived property of the CFIS density."
+      },
+      "location": {
+        "statement": "Appendix B, Eq. (19) (the lambda_3 domain-specific reformulation of Eq. (2); X_suppl.tex lines ~74-82, labeled eq:close-form-fuse in the source)",
+        "proof": "obtained by the same derivation as C1 with a third weighted group",
+        "eqs": [
+          "Eq. (19): the 3-term W'_k = (... + lambda_1 sum ... + lambda_3 sum ...)(...)^{-1} display"
+        ]
+      },
+      "background_notation": {
+        "lambda_3": "weight for domain-specific prior knowledge (vs. lambda_1 for general prior)",
+        "m'": "number of general-knowledge preserving terms (of the total m); m - m' domain-specific terms"
+      },
+      "hypotheses": [
+        "lambda_1, lambda_3 in R^+.",
+        "The 3-group Gram matrix is invertible (C2)."
+      ],
+      "statement_informal": "Splitting the preservation terms into m' general + (m-m') domain-specific, weighted lambda_1 and lambda_3, gives the same closed form with a third weighted group added to both A and G.",
+      "statement_formal": "C1's general theorem with three weight groups (weights 1, lambda_1, lambda_3); minimizer A G^{-1} as before.",
+      "proof_as_in_paper": "Same derivation as C1 with an extra weighted sum; the paper writes the resulting formula directly.",
+      "proof_technique": "Instantiation of C1.",
+      "proof_completeness": "immediate from C1.",
+      "external_dependencies": [],
+      "depends_on": [
+        "closed_form_refinement"
+      ],
+      "known_issues_in_paper": [
+        "The source reuses the label 'eq:close-form-fuse' for BOTH the fusion objective (rendered Eq. (7)) and this lambda_3 variant (rendered Eq. (19)) -- a duplicate LaTeX label, harmless to the rendered numbering. Recorded for fidelity.",
+        "The lambda_3 summation index in the display runs i=n+m' .. n+m, overlapping the lambda_1 index at i=n+m' (an off-by-one in the summation bounds); the intended partition is m' general + (m-m') domain-specific terms. The formalization uses the intended disjoint partition."
+      ],
+      "formalization_notes": "Instances.lean: same as C3 with an extra weight group. No new mathematics."
+    },
+    {
+      "id": "cfis_density_nonneg",
+      "label": "C5 / Eq. (5)",
+      "name": "The CFIS sampling density is non-negative (non-negativity is the part formalized; integration-to-one is not)",
+      "type": "minor derivable property (the paper defines xi(t) but states no theorem about it)",
+      "paper": {
+        "title": "MACE: Mass Concept Erasure in Diffusion Models",
+        "authors": [
+          "Shilin Lu",
+          "Zilan Wang",
+          "Leyang Li",
+          "Yanzhu Liu",
+          "Adams Wai-Kin Kong"
+        ],
+        "affiliation": "Nanyang Technological University; A*STAR, Singapore",
+        "venue": "CVPR 2024",
+        "arxiv_id": "2403.06135",
+        "arxiv_url": "https://arxiv.org/abs/2403.06135",
+        "source_of_truth": "arXiv LaTeX e-print (arxiv.org/e-print/2403.06135); statements and proofs cataloged from sec/method.tex and sec/X_suppl.tex.",
+        "scope_note": "MACE is a framework paper. Its self-contained provable mathematical content is the closed-form solution derived in Appendix B (sec:proof). The attention-suppression loss (Eq. 3), the LoRA decomposition (Eq. 4), the CFIS sampling pdf (Eq. 5), and the naive weighted-sum fusion are definitions/design choices rather than theorems. Items C1-C4 cover that content; C3 and C4 are C1 re-instantiated; C5 is a minor derived property of the CFIS density."
+      },
+      "location": {
+        "statement": "Sec. 3.2 'Concept-focal importance sampling', Eq. (5) (eq:sampling); the density's graph is provided in Appendix E 'Concept-Focal Importance Sampling' (sec:CFIS_pdf)",
+        "proof": "not stated in the paper (xi is defined, not proved to be a density)",
+        "eqs": [
+          "eq:sampling (5)"
+        ]
+      },
+      "background_notation": {
+        "xi(t)": "sampling density over timestep t used when training the LoRA modules",
+        "sigma(x)": "logistic sigmoid 1/(1+e^{-x})",
+        "t_1, t_2": "bounds of the high-probability interval, t_1 < t_2 (paper: 200, 400)",
+        "gamma": "positive temperature (paper: 0.05)",
+        "Z": "normalizer making xi integrate to 1"
+      },
+      "hypotheses": [
+        "t_1 < t_2.",
+        "gamma > 0.",
+        "Z > 0."
+      ],
+      "statement_informal": "xi(t) = (sigma(gamma(t-t_1)) - sigma(gamma(t-t_2)))/Z >= 0 for all t, because sigma is strictly increasing and t_1 < t_2 make sigma(gamma(t-t_1)) >= sigma(gamma(t-t_2)); with Z the (positive) normalizing constant, xi is a valid probability density.",
+      "statement_formal": "For gamma > 0, t_1 < t_2, Z > 0: for all t, 0 <= (sigma(gamma(t-t_1)) - sigma(gamma(t-t_2)))/Z, since sigma strictly monotone and gamma(t-t_1) >= gamma(t-t_2).",
+      "proof_as_in_paper": "None -- xi is presented as a design choice, not proved to be a density.",
+      "proof_technique": "Monotonicity of the logistic sigmoid (Real.strictMono... or via its derivative) applied to gamma(t-t_1) >= gamma(t-t_2); nonnegativity of a difference of an increasing function.",
+      "proof_completeness": "trivial once monotonicity of sigma is invoked; included only for completeness of the paper's minor mathematical content.",
+      "external_dependencies": [
+        "Monotonicity of the logistic sigmoid (available in Mathlib / provable from its derivative)."
+      ],
+      "depends_on": [],
+      "known_issues_in_paper": [],
+      "formalization_notes": "Optional / nice-to-have (CFIS.lean). Small. Non-negativity is the clean statement; full 'integrates to 1' would need to pin Z = integral, which the paper leaves implicit."
+    }
+  ]
+}

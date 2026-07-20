@@ -10,8 +10,6 @@ Everything builds with zero `sorry`, and `#print axioms` reports only the standa
 - `CFIS.lean` — the sampling density (Eq. (5)) is non-negative;
 - `Basic.lean` — shared definitions; `Mace.lean` — the umbrella import.
 
-`verify.sh` runs the full check: `lake build`, a `sorry` sweep, and `#print axioms` on every headline result.
-
 ## How to build
 
 Requires a Lean 4 toolchain (`elan`/`lake`). Run `lake build` in this folder. The Mathlib version is pinned in `lakefile.toml` / `lake-manifest.json`.
